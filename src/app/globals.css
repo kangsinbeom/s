@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #141517;
 }
 
 @theme inline {
@@ -14,7 +14,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #141517;
     --foreground: #ededed;
   }
 }
@@ -24,3 +24,8 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+/* font color #fff
+font family: 
+Sandoll Nemony2, Apple SD Gothic NEO, Helvetica Neue, Helvetica, 나눔고딕, NanumGothic, Malgun Gothic, 맑은 고딕, 굴림, gulim, 새굴림, noto sans, 돋움, Dotum, sans-serif
+
+*/
