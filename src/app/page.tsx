@@ -7,21 +7,17 @@ import { useRef } from "react";
 
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); // 페이지 리로드 방지
-    if (inputRef.current) {
-      console.log("입력값:", inputRef.current.value);
-    }
-    // 여기서 API 호출이나 상태 업데이트 등 추가 가능
-  };
 
   const handleDownload = async (e: React.FormEvent) => {
     e.preventDefault(); // 페이지 리로드 방지
     if (inputRef.current) {
-      const res = await fetch("/apis/download", {
+      const res = await fetch("http://127.0.0.1:8000/download", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: inputRef.current.value }),
+        body: JSON.stringify({
+          url: inputRef.current.value,
+          output_name: "output.mp4",
+        }),
       });
       const data = await res.json();
       console.log(data.message);
