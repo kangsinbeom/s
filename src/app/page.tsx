@@ -2,16 +2,41 @@
 
 import VideoIcon from "./components/icons/Video";
 import Button from "./components/buttons/Button";
+import VodInput from "./components/inputs/VodInput";
+import { useRef } from "react";
 
 export default function Home() {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); // 페이지 리로드 방지
+    if (inputRef.current) {
+      console.log("입력값:", inputRef.current.value);
+    }
+    // 여기서 API 호출이나 상태 업데이트 등 추가 가능
+  };
+
+  const handleDownload = async (e: React.FormEvent) => {
+    e.preventDefault(); // 페이지 리로드 방지
+    if (inputRef.current) {
+      const res = await fetch("/apis/download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: inputRef.current.value }),
+      });
+      const data = await res.json();
+      console.log(data.message);
+    }
+  };
   return (
-    <div className="flex items-center justify-center h-screen flex-col gap-4">
+    <div className="flex items-center justify-center h-screen flex-col gap-28">
       <h1 className="text-5xl font-bold">치지직 VOD 다운로더</h1>
-      <input
-        className="border px-4 py-2 rounded-full border-[#4d4d4d]"
-        type="text"
-      />
-      <Button icons={<VideoIcon />} text="VOD 가져오기" onClick={() => {}} />
+      <form
+        className="flex flex-col justify-center gap-8 items-start"
+        onSubmit={handleDownload}
+      >
+        <VodInput label="VOD URL" ref={inputRef} />
+        <Button icons={<VideoIcon />} text="VOD 가져오기" />
+      </form>
     </div>
   );
 }
