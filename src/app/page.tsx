@@ -10,19 +10,23 @@ export default function Home() {
 
   const handleDownload = async (e: React.FormEvent) => {
     e.preventDefault(); // 페이지 리로드 방지
-    if (inputRef.current) {
-      const res = await fetch("http://127.0.0.1:8000/download", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          url: inputRef.current.value,
-          output_name: "output.mp4",
-        }),
-      });
-      const data = await res.json();
-      console.log(data.message);
-    }
+    if (!inputRef.current) return;
+
+    const url = inputRef.current.value;
+    const video_no = url.split("/").pop(); // URL에서 video_no 추출
+
+    // 🔹 Node.js 서버가 아닌, Next.js API 호출
+    const res = await fetch("/apis/download", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ video_no }),
+      credentials: "include", // 쿠키 포함
+    });
+
+    const data = await res.json();
+    console.log(data); // Node.js 서버에서 가져온 결과
   };
+
   return (
     <div className="flex items-center justify-center h-screen flex-col gap-28">
       <h1 className="text-5xl font-bold">치지직 VOD 다운로더</h1>
