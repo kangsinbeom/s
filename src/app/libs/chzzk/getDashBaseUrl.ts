@@ -14,7 +14,6 @@ export async function getDashBaseUrl(videoUrl: string) {
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
     },
   });
-  console.log("DASH manifest fetched successfully", res);
 
   if (!res.ok) throw new Error(`Failed to fetch DASH manifest: ${res.status}`);
   const xmlText = await res.text();
@@ -29,3 +28,5 @@ export async function getDashBaseUrl(videoUrl: string) {
 
   return baseUrl;
 }
+
+// vod마다 발급되는 inkey가 다르구나 각 vod마다 inkey를 알아야하는가...? ㅅㅂ...

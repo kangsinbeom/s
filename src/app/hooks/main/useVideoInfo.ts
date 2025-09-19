@@ -1,15 +1,22 @@
 "use client";
 
+import { VideoInfoResponse } from "@/app/types/bff/response/video";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // main page에서 사용되는 dashUrl에 대한 대부분의 정보들이 모여있는 hook
-const useDashUrl = () => {
+const useVideoInfo = () => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [dashUrl, setDashUrl] = useState<string>("");
+  const [videoInfo, setVideoInfo] = useState<VideoInfoResponse>({
+    src: "",
+    type: "HLS",
+    publishDate: "",
+    videoTitle: "",
+  });
+
   const router = useRouter();
   // dashUrl 가져오는 핸들러
-  const handleDashUrl = async (e: React.FormEvent) => {
+  const handleVideoInfo = async (e: React.FormEvent) => {
     e.preventDefault(); // 페이지 리로드 방지
     if (!inputRef.current) return;
 
@@ -24,13 +31,13 @@ const useDashUrl = () => {
       credentials: "include", // 쿠키 포함
     });
 
-    const dashUrl = await res.json().then((data) => data.dashUrl);
+    const data: VideoInfoResponse = await res.json();
 
-    if (dashUrl) {
-      setDashUrl(dashUrl);
+    if (data.src) {
+      setVideoInfo(data);
 
       // ✅ sessionStorage에 저장
-      sessionStorage.setItem("dashUrl", dashUrl);
+      sessionStorage.setItem("storedSrc", JSON.stringify(data));
 
       // ✅ query parameter에 추가 (예: ?preview=true)
       const searchParams = new URLSearchParams(window.location.search);
@@ -39,28 +46,14 @@ const useDashUrl = () => {
       router.replace(newUrl); // 페이지 이동 없이 URL 업데이트
     }
   };
+  useEffect(() => {
+    const storedSrc = sessionStorage.getItem("storedSrc");
+    if (storedSrc) {
+      setVideoInfo(JSON.parse(storedSrc));
+    }
+  }, []);
 
-  return { inputRef, handleDashUrl, dashUrl, setDashUrl };
+  return { inputRef, handleVideoInfo, videoInfo, setVideoInfo };
 };
 
-export default useDashUrl;
-
-// const handleDashUrl = async (e: React.FormEvent) => {
-//     e.preventDefault(); // 페이지 리로드 방지
-//     if (!inputRef.current) return;
-
-//     const url = inputRef.current.value;
-//     const video_no = url.split("/").pop(); // URL에서 video_no 추출
-
-//     // 🔹 Node.js 서버가 아닌, Next.js API 호출
-//     const res = await fetch("/apis/dashUrl", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ video_no }),
-//       credentials: "include", // 쿠키 포함
-//     });
-
-//     await res.json().then((data) => {
-//       setDashUrl(data.baseUrl);
-//     });
-//   };
+export default useVideoInfo;
