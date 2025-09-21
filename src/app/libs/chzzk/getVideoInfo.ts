@@ -1,4 +1,4 @@
-import { VodApiResponse } from "@/app/types/external/response/chzzk";
+import { VodApiResponse } from "@/app/types/external/chzzk/vod";
 
 const CHZZK_NID_SES = process.env.CHZZK_NID_SES;
 const CHZZK_NID_AUT = process.env.CHZZK_NID_AUT;
@@ -10,6 +10,8 @@ interface getVideoInfoResponse {
   publishDate: string;
   inKey: string | null;
   src?: string;
+  videoCategoryValue: string;
+  tags: string[];
 }
 
 // videoInfo 가져오기 API
@@ -38,8 +40,15 @@ export const getVideoInfo = async (
 
   const data: VodApiResponse = await response.json();
   const { content } = data;
-  const { videoId, inKey, liveRewindPlaybackJson, videoTitle, publishDate } =
-    content;
+  const {
+    videoId,
+    inKey,
+    liveRewindPlaybackJson,
+    videoTitle,
+    publishDate,
+    videoCategoryValue,
+    tags,
+  } = content;
 
   if (!videoId) {
     throw new Error("videoId not found in response");
@@ -64,12 +73,14 @@ export const getVideoInfo = async (
         publishDate,
         inKey,
         src,
+        videoCategoryValue,
+        tags,
       };
     } catch (err) {
       throw new Error("Failed to parse liveRewindPlaybackJson");
     }
   }
-  return { videoId, inKey, videoTitle, publishDate };
+  return { videoId, inKey, videoTitle, publishDate, videoCategoryValue, tags };
 };
 
 export default getVideoInfo;

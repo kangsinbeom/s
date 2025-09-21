@@ -3,4 +3,6 @@ export interface VideoInfoResponse {
   type: "HLS" | "MP4"; // 스트림 타입
   publishDate: string;
   videoTitle: string;
+  videoCategoryValue: string;
+  tags: string[];
 }

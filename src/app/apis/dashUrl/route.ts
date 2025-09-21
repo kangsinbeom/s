@@ -17,9 +17,15 @@ export async function POST(
       );
     }
 
-    const { videoId, src, inKey, publishDate, videoTitle } = await getVideoInfo(
-      video_no
-    );
+    const {
+      videoId,
+      src,
+      inKey,
+      publishDate,
+      videoTitle,
+      videoCategoryValue,
+      tags,
+    } = await getVideoInfo(video_no);
 
     if (inKey) {
       const streamUrl = `${process.env.CHZZK_STREAM_URL}${videoId}?key=${inKey}`;
@@ -29,6 +35,8 @@ export async function POST(
         type: "MP4",
         publishDate,
         videoTitle,
+        videoCategoryValue,
+        tags,
       });
     }
 
@@ -36,7 +44,14 @@ export async function POST(
       return NextResponse.json({ error: "src is undefined" }, { status: 500 });
     }
 
-    return NextResponse.json({ src, type: "HLS", publishDate, videoTitle });
+    return NextResponse.json({
+      src,
+      type: "HLS",
+      publishDate,
+      videoTitle,
+      videoCategoryValue,
+      tags,
+    });
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },

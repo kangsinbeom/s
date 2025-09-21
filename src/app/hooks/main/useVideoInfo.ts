@@ -12,6 +12,8 @@ const useVideoInfo = () => {
     type: "HLS",
     publishDate: "",
     videoTitle: "",
+    videoCategoryValue: "",
+    tags: [],
   });
 
   const router = useRouter();
