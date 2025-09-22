@@ -2,8 +2,9 @@
 
 import { useState, useEffect, Suspense } from "react";
 import OpenModalButton from "../modal/ModalOpenButton";
-import { UserInfoContent } from "@/app/types/external/chzzk/user";
 import UserProfile from "./UserProfile";
+import { UserInfoContent } from "@/app/types/external/response/user";
+import { useModalStore } from "@/app/stores/modalStore";
 
 function LoginStatusContent() {
   const [state, setState] = useState<
@@ -11,7 +12,7 @@ function LoginStatusContent() {
     | { status: "success"; data: UserInfoContent }
     | { status: "error" }
   >({ status: "loading" });
-
+  const { openModal } = useModalStore();
   useEffect(() => {
     const fetchStatus = async () => {
       try {
@@ -31,7 +32,7 @@ function LoginStatusContent() {
   if (state.status === "loading") return <p>로딩 중...</p>;
 
   if (state.status === "error") {
-    return <OpenModalButton text="로그인" />;
+    return <OpenModalButton text="로그인" onClick={openModal} />;
   }
 
   return state.data.loggedIn ? (
@@ -40,7 +41,7 @@ function LoginStatusContent() {
       profileImageUrl={state.data.profileImageUrl}
     />
   ) : (
-    <OpenModalButton text="로그인" />
+    <OpenModalButton text="로그인" onClick={openModal} />
   );
 }
 
