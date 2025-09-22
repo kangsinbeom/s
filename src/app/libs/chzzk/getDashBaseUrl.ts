@@ -1,15 +1,20 @@
-import fs from "fs";
 import { parseStringPromise } from "xml2js";
 
-const CHZZK_NID_SES = process.env.CHZZK_NID_SES;
-const CHZZK_NID_AUT = process.env.CHZZK_NID_AUT;
+interface getDashBaseUrlParams {
+  videoUrl: string;
+  NID_AUT: string;
+  NID_SES: string;
+}
 
-export async function getDashBaseUrl(videoUrl: string) {
-  const cookieHeader = `NID_SES=${CHZZK_NID_SES}; NID_AUT=${CHZZK_NID_AUT}`;
+export async function getDashBaseUrl({
+  NID_AUT,
+  NID_SES,
+  videoUrl,
+}: getDashBaseUrlParams) {
   const res = await fetch(videoUrl, {
     headers: {
       Accept: "application/dash+xml",
-      Cookie: cookieHeader,
+      Cookie: `NID_SES=${NID_SES}; NID_AUT=${NID_AUT}`,
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
     },
@@ -28,5 +33,3 @@ export async function getDashBaseUrl(videoUrl: string) {
 
   return baseUrl;
 }
-
-// vod마다 발급되는 inkey가 다르구나 각 vod마다 inkey를 알아야하는가...? ㅅㅂ...

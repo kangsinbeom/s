@@ -5,4 +5,5 @@ export interface VideoInfoResponse {
   videoTitle: string;
   videoCategoryValue: string;
   tags: string[];
+  duration: number;
 }

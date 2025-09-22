@@ -1,6 +1,7 @@
 // src/app/apis/chzzkUserInfo/route.ts
+import getAuthCookies from "@/app/libs/utils/getAuthCookies";
+import { ChzzkUserInfoResponse } from "@/app/types/external/response/user";
 import { NextRequest, NextResponse } from "next/server";
-import { ChzzkUserInfoResponse } from "@/app/types/external/chzzk/user";
 
 // 🍪 쿠키 삭제 헬퍼
 function clearAuthCookies(res: NextResponse) {
@@ -10,18 +11,7 @@ function clearAuthCookies(res: NextResponse) {
 }
 
 export async function GET(req: NextRequest) {
-  const nidSes = req.cookies.get("NID_SES")?.value;
-  const nidAut = req.cookies.get("NID_AUT")?.value;
-
-  if (!nidSes || !nidAut) {
-    // 쿠키 없을 때 바로 권한 해제
-    return clearAuthCookies(
-      NextResponse.json(
-        { error: "Required cookies not found" },
-        { status: 401 }
-      )
-    );
-  }
+  const { NID_AUT, NID_SES } = getAuthCookies(req);
 
   try {
     const res = await fetch(
@@ -29,7 +19,7 @@ export async function GET(req: NextRequest) {
       {
         method: "GET",
         headers: {
-          Cookie: `NID_SES=${nidSes}; NID_AUT=${nidAut}`,
+          Cookie: `NID_SES=${NID_SES}; NID_AUT=${NID_AUT}`,
           "User-Agent":
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
           Accept: "application/json, text/plain, */*",
@@ -38,29 +28,13 @@ export async function GET(req: NextRequest) {
         },
       }
     );
-
-    if (!res.ok) {
-      const text = await res.text().catch(() => "");
-      return clearAuthCookies(
-        NextResponse.json(
-          {
-            error: "External API request failed",
-            status: res.status,
-            body: text,
-          },
-          { status: 401 } // 권한 해제
-        )
-      );
-    }
-
     const data: ChzzkUserInfoResponse = await res.json();
-    console.log("Chzzk User Info API Response:", data);
     return NextResponse.json({
-      message: "API 호출 성공",
+      message: "유저정보 받아오기 성공",
       data: data.content,
     });
   } catch (err) {
-    console.error("Internal Error:", err);
+    console.error("유저정보 받아오기 실패", err);
     return clearAuthCookies(
       NextResponse.json({ error: "Internal Server Error" }, { status: 500 })
     );

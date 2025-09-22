@@ -4,17 +4,13 @@ import { spawn } from "child_process";
 import fs from "fs";
 import path from "path";
 import os from "os";
+import getAuthCookies from "@/app/libs/utils/getAuthCookies";
 
 export async function GET(req: NextRequest) {
   const hlsUrl = req.nextUrl.searchParams.get("url");
   if (!hlsUrl)
     return NextResponse.json({ error: "No URL provided" }, { status: 400 });
-
-  const nidSes = req.cookies.get("NID_SES")?.value;
-  const nidAut = req.cookies.get("NID_AUT")?.value;
-
-  if (!nidSes || !nidAut)
-    return NextResponse.json({ error: "Missing cookies" }, { status: 401 });
+  const { NID_AUT, NID_SES } = getAuthCookies(req);
 
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "vod-"));
   const outputFile = path.join(tmpDir, "video.mp4");
@@ -25,7 +21,7 @@ export async function GET(req: NextRequest) {
       const ffmpeg = spawn("ffmpeg", [
         "-y",
         "-headers",
-        `Cookie: NID_SES=${nidSes}; NID_AUT=${nidAut}\r\n`,
+        `Cookie: NID_SES=${NID_AUT}; NID_AUT=${NID_SES}\r\n`,
         "-i",
         hlsUrl,
         "-c",
