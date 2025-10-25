@@ -8,39 +8,26 @@ import VodInput from "./components/inputs/VodInput";
 import VideoInfo from "./components/main/video/VideoInfo";
 import VideoPreview from "./components/main/video/VideoPreview";
 import useVideoInfo from "./hooks/main/useVideoInfo";
-import useDownloadVod from "./hooks/main/useDownloadVideo";
 import getSearchParams from "./hooks/commons/getSearchParams";
+import VideoRange from "./components/main/video/VideoRange";
+import { TimeInput } from "./components/inputs/TimeInput";
 
 export default function Home() {
   const previewUrl = getSearchParams("preview");
   const { handleSubmitVideoInfo, inputRef, videoInfo } = useVideoInfo();
-  const { handleDownloadVod } = useDownloadVod();
-  const handleTest = async () => {
-    const res = await fetch("/apis/test", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include", // 쿠키 포함
-    });
-    const data = await res.json();
-    console.log(data);
-  };
   return (
     <div className="flex items-center justify-center h-screen flex-col gap-28">
-      <h1 className="text-5xl font-bold">치지직 VOD 다운로더</h1>
       {previewUrl && videoInfo.src ? (
         <div className="flex flex-row gap-6 items-center">
           <VideoInfo {...videoInfo}>
             <VideoPreview {...videoInfo} />
           </VideoInfo>
-
-          <div className="flex flex-col p-6 border border-[#75FBAA] rounded-xl bg-[#303234] gap-2 ">
-            <Button
-              text="다운로드 버튼"
-              onClick={() =>
-                handleDownloadVod({ src: videoInfo.src, type: videoInfo.type })
-              }
-            />
-          </div>
+          <VideoRange {...videoInfo} />
+          <TimeInput
+            label="123"
+            value={{ h: 0, m: 0, s: 0 }}
+            onChange={() => {}}
+          />
         </div>
       ) : (
         <form

@@ -3,19 +3,20 @@ import LoginStatus from "./LoginStatus";
 
 export default function Header() {
   return (
-    <header className="flex items-center py-6 px-12">
-      <div className="flex items-center gap-2">
+    <header className="flex items-center w-full h-[60px] justify-between px-6">
+      <a href="/" className="flex h-full items-center">
         <Image
-          src="/images/chzzklogo_kor(White).png"
+          src="/images/chzzkDownloaderLogo.png"
           alt="Logo"
-          width={75}
-          height={20}
-          style={{ width: 75, height: 20 }}
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="h-[40%] w-auto object-contain"
           priority
         />
-        <p className="text-[22px] font-extralight">Downloader</p>
-      </div>
+      </a>
 
+      <h1 className="text-3xl font-bold">치지직 VOD 다운로더</h1>
       <LoginStatus />
     </header>
   );

@@ -22,8 +22,19 @@ export async function getDashBaseUrl({
 
   if (!res.ok) throw new Error(`Failed to fetch DASH manifest: ${res.status}`);
   const xmlText = await res.text();
-
   const parsedXml = await parseStringPromise(xmlText);
+  console.log(
+    parsedXml?.MPD?.Period?.[0]?.AdaptationSet?.[0]?.Representation?.map(
+      (r: any) => ({
+        id: r.$.id,
+        width: r.$.width,
+        height: r.$.height,
+        bandwidth: r.$.bandwidth,
+        baseUrl: r.BaseURL?.[0],
+      })
+    )
+  );
+
   // DASH에서 BaseURL 추출
   const baseUrl =
     parsedXml?.MPD?.Period?.[0]?.AdaptationSet?.[0]?.Representation?.[0]

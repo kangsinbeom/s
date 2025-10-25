@@ -8,7 +8,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const { NID_AUT, NID_SES } = getAuthCookies(req);
   const video_no = getReqSearchParams(req, "videoNo");
-  console.log("video_no------------------------------", video_no);
   try {
     const {
       videoId,

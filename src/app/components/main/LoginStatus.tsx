@@ -47,7 +47,7 @@ function LoginStatusContent() {
 
 export default function LoginStatus() {
   return (
-    <div className="ml-auto min-h-[50px] flex items-center">
+    <div>
       <Suspense fallback={<p className="font-bold">로딩 중...</p>}>
         <LoginStatusContent />
       </Suspense>
