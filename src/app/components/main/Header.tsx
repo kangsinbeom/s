@@ -1,9 +1,11 @@
 import Image from "next/image";
 import LoginStatus from "./LoginStatus";
+import SearchIcon from "../icons/Search";
+import SearchInput from "../inputs/SearchInput";
 
 export default function Header() {
   return (
-    <header className="flex items-center w-full h-[60px] justify-between px-6">
+    <header className="flex items-center w-full h-[60px] justify-between px-6 text-white">
       <a href="/" className="flex h-full items-center">
         <Image
           src="/images/chzzkDownloaderLogo.png"
@@ -15,8 +17,7 @@ export default function Header() {
           priority
         />
       </a>
-
-      <h1 className="text-3xl font-bold">치지직 VOD 다운로더</h1>
+      <SearchInput />
       <LoginStatus />
     </header>
   );
