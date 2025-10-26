@@ -1,6 +1,8 @@
 import Image from "next/image";
 import LoginStatus from "./LoginStatus";
 import SearchInput from "../inputs/SearchInput";
+import Modal from "../modal/Modal";
+import LoginModal from "../modal/LoginModal";
 
 export default function Header() {
   return (
@@ -18,6 +20,9 @@ export default function Header() {
       </a>
       <SearchInput />
       <LoginStatus />
+      <Modal>
+        <LoginModal />
+      </Modal>
     </header>
   );
 }
