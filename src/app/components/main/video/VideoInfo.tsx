@@ -17,7 +17,7 @@ const VideoInfo = ({
 }: VideoInfoProps) => {
   const date = formatShortDate(publishDate);
   return (
-    <div className="flex flex-col p-6 border border-[#75FBAA] rounded-xl bg-[#303234] gap-2 ">
+    <div className="flex flex-col p-6 gap-2 ">
       {children}
       <div className="pl-4">
         <h2 className="text-2xl font-bold ">{videoTitle}</h2>

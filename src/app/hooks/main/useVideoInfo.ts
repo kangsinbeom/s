@@ -12,7 +12,6 @@ const useVideoInfo = () => {
 
   const [videoInfo, setVideoInfo] = useState<VideoInfoResponse>({
     src: "",
-    type: "HLS",
     publishDate: "",
     videoTitle: "",
     videoCategoryValue: "",

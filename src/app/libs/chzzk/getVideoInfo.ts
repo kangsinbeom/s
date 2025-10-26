@@ -8,12 +8,23 @@ interface getVideoInfoParams {
   NID_SES: string;
 }
 
+type VideoInfo = Pick<
+  VodContent,
+  | "videoId"
+  | "inKey"
+  | "publishDate"
+  | "videoTitle"
+  | "videoCategoryValue"
+  | "duration"
+  | "tags"
+>;
+
 // videoInfo 가져오기 API
 export const getVideoInfo = async ({
   video_no,
   NID_AUT,
   NID_SES,
-}: getVideoInfoParams): Promise<VodContent> => {
+}: getVideoInfoParams): Promise<VideoInfo> => {
   try {
     const response = await fetch(`${BASE_URL}${video_no}`, {
       method: "GET",
@@ -23,9 +34,27 @@ export const getVideoInfo = async ({
         Cookie: `NID_SES=${NID_SES}; NID_AUT=${NID_AUT}`,
       },
     });
-    const { content }: VodApiResponse = await response.json();
+    const {
+      content: {
+        videoId,
+        inKey,
+        publishDate,
+        videoTitle,
+        videoCategoryValue,
+        duration,
+        tags,
+      },
+    }: VodApiResponse = await response.json();
 
-    return content;
+    return {
+      videoId,
+      inKey,
+      publishDate,
+      videoTitle,
+      videoCategoryValue,
+      duration,
+      tags,
+    };
   } catch (error) {
     throw new Error("Network error while fetching video info");
   }

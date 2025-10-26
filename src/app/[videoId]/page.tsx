@@ -10,12 +10,12 @@ const VideoPage = () => {
   const { videoInfo } = useVideoInfo();
 
   return (
-    <div className="flex flex-row gap-6 items-center">
+    <div className="flex flex-col gap-6 ">
       <VideoInfo {...videoInfo}>
-        <VideoPreview {...videoInfo} />
+        <VideoPreview src={videoInfo.src} />
       </VideoInfo>
-      <VideoRange {...videoInfo} />
-      <TimeInput label="123" value={{ h: 0, m: 0, s: 0 }} onChange={() => {}} />
+      {/* <VideoRange {...videoInfo} />
+      <TimeInput label="123" value={{ h: 0, m: 0, s: 0 }} onChange={() => {}} /> */}
     </div>
   );
 };

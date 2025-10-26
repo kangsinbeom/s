@@ -1,42 +1,40 @@
-import { getDashBaseUrl } from "@/app/libs/chzzk/getDashBaseUrl";
+import { getParsedXmlVodInfoUrl } from "@/app/libs/chzzk/getParsedXmlVodInfoUrl";
 import getVideoInfo from "@/app/libs/chzzk/getVideoInfo";
 import getAuthCookies from "@/app/libs/utils/getAuthCookies";
 import getReqSearchParams from "@/app/libs/utils/getReqSearchParams";
-import liveRewindPlaybackJsonToPath from "@/app/libs/utils/liveRewindPlaybackJson";
+import getVodUrl from "@/app/libs/vod/getVodUrl";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const { NID_AUT, NID_SES } = getAuthCookies(req);
   const video_no = getReqSearchParams(req, "videoNo");
   try {
-    const {
-      videoId,
-      liveRewindPlaybackJson,
-      inKey,
-      publishDate,
-      videoTitle,
-      videoCategoryValue,
-      duration,
-      tags,
-    } = await getVideoInfo({ video_no, NID_AUT, NID_SES });
+    const { inKey, videoId, ...resposeInfo } = await getVideoInfo({
+      video_no,
+      NID_AUT,
+      NID_SES,
+    });
 
-    let src = liveRewindPlaybackJsonToPath(liveRewindPlaybackJson);
-    let type = "HLS";
+    // 이거는 hls일 때인데 일단 빼자
+    // let src = liveRewindPlaybackJsonToPath(liveRewindPlaybackJson);
+    // let type = "HLS";
 
-    if (inKey && !src) {
-      const videoUrl = `${process.env.CHZZK_STREAM_URL}${videoId}?key=${inKey}`;
-      src = await getDashBaseUrl({ videoUrl, NID_AUT, NID_SES });
-      type = "MP4";
+    if (!inKey) {
+      throw new Error("inKey is missing in video info");
     }
+    const videoUrl = `${process.env.CHZZK_STREAM_URL}${videoId}?key=${inKey}`;
+    const parsedXml = await getParsedXmlVodInfoUrl({
+      videoUrl,
+      NID_AUT,
+      NID_SES,
+    });
+    const src = getVodUrl(parsedXml);
+    if (!src) throw new Error("BaseURL not found in DASH manifest");
 
     return NextResponse.json({
       src,
-      type,
-      publishDate,
-      videoTitle,
-      videoCategoryValue,
-      duration,
-      tags,
+      parsedXml,
+      ...resposeInfo,
     });
   } catch (error) {
     return NextResponse.json(
