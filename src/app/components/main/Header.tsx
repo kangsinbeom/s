@@ -1,12 +1,11 @@
 import Image from "next/image";
 import LoginStatus from "./LoginStatus";
-import SearchIcon from "../icons/Search";
 import SearchInput from "../inputs/SearchInput";
 
 export default function Header() {
   return (
     <header className="flex items-center w-full h-[60px] justify-between px-6 text-white">
-      <a href="/" className="flex h-full items-center">
+      <a href="/" className="flex h-full items-center flex-shrink-0">
         <Image
           src="/images/chzzkDownloaderLogo.png"
           alt="Logo"

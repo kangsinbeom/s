@@ -1,56 +1,26 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
-import OpenModalButton from "../modal/ModalOpenButton";
-import UserProfile from "./UserProfile";
-import { UserInfoContent } from "@/app/types/external/response/user";
+import React from "react";
+import Button from "../buttons/Button";
 import { useModalStore } from "@/app/stores/modalStore";
+import { useInitalizeAuth } from "@/app/hooks/useInitalizeAuth";
+import { useAuthStore } from "@/app/stores/useAuthStore";
 
-function LoginStatusContent() {
-  const [state, setState] = useState<
-    | { status: "loading" }
-    | { status: "success"; data: UserInfoContent }
-    | { status: "error" }
-  >({ status: "loading" });
-  const { openModal } = useModalStore();
-  useEffect(() => {
-    const fetchStatus = async () => {
-      try {
-        const res = await fetch("/apis/chzzkUserInfo");
-        if (!res.ok) throw new Error("API error");
-        const data: UserInfoContent = await res.json().then((res) => res.data);
-        setState({ status: "success", data });
-      } catch (err) {
-        // 요청 실패 → 로그인 안 된 상태로 처리
-        setState({ status: "error" });
-      }
-    };
-
-    fetchStatus();
-  }, [state.status]);
-
-  if (state.status === "loading") return <p>로딩 중...</p>;
-
-  if (state.status === "error") {
-    return <OpenModalButton text="로그인" onClick={openModal} />;
-  }
-
-  return state.data.loggedIn ? (
-    <UserProfile
-      nickname={state.data.nickname}
-      profileImageUrl={state.data.profileImageUrl}
-    />
+const LoginStatus = () => {
+  useInitalizeAuth();
+  const isLogined = useAuthStore((s) => s.isLogined);
+  const openModal = useModalStore((s) => s.openModal);
+  return isLogined ? (
+    <p>쿠키 등록 완료</p>
   ) : (
-    <OpenModalButton text="로그인" onClick={openModal} />
+    <Button text="로그인" onClick={openModal} />
   );
-}
+};
 
-export default function LoginStatus() {
-  return (
-    <div>
-      <Suspense fallback={<p className="font-bold">로딩 중...</p>}>
-        <LoginStatusContent />
-      </Suspense>
-    </div>
-  );
-}
+export default LoginStatus;
+
+/**
+ * 쿠키 등록 완료라고 된 부분을 어떻게 바꿀건지 고쳐야 함 왜냐 이거 유저 정보를 받아오는 부분에서 잘 안되서
+ * 쿠키 등록 완료랑 로그인 버튼 이거 바뀌면서 크기 달라지는데 그러면서 header의 비율이 달라짐
+ * 이거 신경 쓰이니깐 고쳐야 함
+ */

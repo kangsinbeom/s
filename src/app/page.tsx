@@ -17,7 +17,7 @@ export default function Home() {
   const { handleSubmitVideoInfo, inputRef, videoInfo } = useVideoInfo();
   return (
     <div className="flex items-center justify-center h-screen flex-col gap-28">
-      {previewUrl && videoInfo.src ? (
+      {previewUrl && videoInfo.src && (
         <div className="flex flex-row gap-6 items-center">
           <VideoInfo {...videoInfo}>
             <VideoPreview {...videoInfo} />
@@ -29,14 +29,6 @@ export default function Home() {
             onChange={() => {}}
           />
         </div>
-      ) : (
-        <form
-          className="flex flex-col justify-center gap-8 items-start"
-          onSubmit={handleSubmitVideoInfo}
-        >
-          <VodInput label="VOD URL" ref={inputRef} />
-          <Button icons={<VideoIcon />} text="VOD 가져오기" />
-        </form>
       )}
       <Modal>
         <LoginModal />

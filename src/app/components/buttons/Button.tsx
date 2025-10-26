@@ -7,11 +7,11 @@ interface ButtonProps {
 const Button = ({ icons, onClick, text }: ButtonProps) => {
   return (
     <button
-      className="inline-flex gap-2 border px-4 py-2 rounded-full border-[#4d4d4d] font-semibold hover:cursor-pointer bg-black  hover:bg-[#202123] w-auto"
+      className="inline-flex gap-2 border px-3.5 py-1.5 rounded-full border-[#4d4d4d] font-semibold hover:cursor-pointer  hover:bg-[#202123] w-auto"
       onClick={onClick}
     >
       {icons}
-      <span className="hover:cursor-pointer">{text}</span>
+      <span className="hover:cursor-pointer font-bold text-[15px]">{text}</span>
     </button>
   );
 };
