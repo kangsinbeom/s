@@ -29,6 +29,7 @@ const useVideoInfo = () => {
 
         const data: VideoInfoResponse = await res.json();
         setVideoInfo(data);
+
         // ✅ sessionStorage에 저장
         sessionStorage.setItem("storedSrc", JSON.stringify(data));
         // ✅ query parameter에 추가 (예: ?preview=true)
@@ -40,13 +41,6 @@ const useVideoInfo = () => {
       }
     })();
   }, []);
-
-  // useEffect(() => {
-  //   const storedSrc = sessionStorage.getItem("storedSrc");
-  //   if (storedSrc) {
-  //     setVideoInfo(JSON.parse(storedSrc));
-  //   }
-  // }, []);
 
   return { videoInfo, setVideoInfo };
 };

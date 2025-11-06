@@ -2,13 +2,15 @@
 import { useEffect } from "react";
 import { useAuthStore } from "../stores/useAuthStore";
 
-export const useInitalizeAuth = () => {
+export const useInitalizeAuth = (initialIsLogined: boolean) => {
   const setLogined = useAuthStore((s) => s.setLogined);
   const clearAuth = useAuthStore((s) => s.clearAuth);
 
-  useEffect(() => {}, [setLogined, clearAuth]);
+  useEffect(() => {
+    if (initialIsLogined) setLogined(true);
+  }, [setLogined, clearAuth]);
 };
-// 지금 못 씀 잘못된 쿠키가 들어가도 res.status가 200으로 옴
+
 // const fetchUserInfo = async () => {
 //   const res = await fetch("/apis/chzzkUserInfo", {
 //     method: "GET",

@@ -1,56 +1,42 @@
-"use cleint";
+"use client";
 
-import { VideoInfoResponse } from "@/app/types/bff/response/video";
+import { usePathname } from "next/navigation";
 import Button from "../../buttons/Button";
-import useDownloadVod from "@/app/hooks/main/useDownloadVideo";
-import { useState } from "react";
+import { FormEvent } from "react";
+import getPathSegments from "@/app/libs/utils/getPathSegments";
 
-interface VideoRange {
-  start: number;
-  end: number;
-}
+const VideoRange = () => {
+  const pathname = usePathname();
 
-const VideoRange = ({ src, type }: Pick<VideoInfoResponse, "type" | "src">) => {
-  const [range, setRange] = useState<VideoRange>({ start: 0, end: 0 });
-  const { handleDownloadVod } = useDownloadVod();
-  const handleChange = (key: "start" | "end", value: string) => {
-    const newRange = { ...range, [key]: Number(value) };
-    setRange(newRange);
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const video_no = getPathSegments(pathname)[0];
+    const { start, end } = getTimeOptions(e);
+    const quality = "1080"; // 고정값으로 설정
+    const res = await fetch("/apis/test", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ start, end, quality, video_no }),
+    });
+    const message = await res.json();
+    console.log(message);
   };
+
   return (
-    <div className="flex flex-col p-6 border border-[#75FBAA] rounded-xl bg-[#303234] gap-2 ">
-      <div className="flex items-center gap-2">
-        <label htmlFor="start" className="w-12 text-sm font-medium">
-          Start
-        </label>
-        <input
-          id="start"
-          type="number"
-          value={range.start}
-          onChange={(e) => handleChange("start", e.target.value)}
-          className="flex-1 px-3 py-2 rounded-md bg-[#1e1f21] border border-gray-600 focus:outline-none"
-        />
-      </div>
-
-      <div className="flex items-center gap-2">
-        <label htmlFor="end" className="w-12 text-sm font-medium">
-          End
-        </label>
-        <input
-          id="end"
-          type="number"
-          value={range.end}
-          onChange={(e) => handleChange("end", e.target.value)}
-          className="flex-1 px-3 py-2 rounded-md bg-[#1e1f21] border border-gray-600 focus:outline-none"
-        />
-      </div>
-
-      <Button
-        text="다운로드 버튼"
-        onClick={() => handleDownloadVod({ src, type })}
-      />
-    </div>
+    <form className="" onSubmit={handleSubmit}>
+      <input type="text" className="border" name="start" />
+      <input type="text" className="border" name="end" />
+      <Button text="다운로드" />
+    </form>
   );
 };
 
 export default VideoRange;
+
+const getTimeOptions = (e: FormEvent<HTMLFormElement>) => {
+  const form = e.currentTarget;
+  const formData = new FormData(form);
+  const start = formData.get("start");
+  const end = formData.get("end");
+  return { start, end };
+};

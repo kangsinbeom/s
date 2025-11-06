@@ -45,7 +45,7 @@ const saveTheCookiesFromFormData = (e: React.FormEvent<HTMLFormElement>) => {
   const formData = new FormData(e.currentTarget);
   const nidSes = formData.get("nidSes") as string;
   const nidAut = formData.get("nidAut") as string;
-
+  console.log(nidSes, nidAut);
   if (!nidSes || !nidAut) {
     alert("둘 다 입력해주세요");
   }

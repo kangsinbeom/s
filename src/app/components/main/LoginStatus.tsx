@@ -6,8 +6,12 @@ import { useModalStore } from "@/app/stores/modalStore";
 import { useInitalizeAuth } from "@/app/hooks/useInitalizeAuth";
 import { useAuthStore } from "@/app/stores/useAuthStore";
 
-const LoginStatus = () => {
-  useInitalizeAuth();
+interface LoginStatusProps {
+  initialIsLogined: boolean;
+}
+
+const LoginStatus = ({ initialIsLogined }: LoginStatusProps) => {
+  useInitalizeAuth(initialIsLogined);
   const isLogined = useAuthStore((s) => s.isLogined);
   const openModal = useModalStore((s) => s.openModal);
   return isLogined ? (

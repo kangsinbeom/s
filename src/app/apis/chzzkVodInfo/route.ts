@@ -33,7 +33,6 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       src,
-      parsedXml,
       ...resposeInfo,
     });
   } catch (error) {
