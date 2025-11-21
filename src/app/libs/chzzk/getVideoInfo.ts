@@ -17,6 +17,7 @@ type VideoInfo = Pick<
   | "videoCategoryValue"
   | "duration"
   | "tags"
+  | "channel"
 >;
 
 // videoInfo 가져오기 API
@@ -43,6 +44,7 @@ export const getVideoInfo = async ({
         videoCategoryValue,
         duration,
         tags,
+        channel,
       },
     }: VodApiResponse = await response.json();
 
@@ -54,6 +56,7 @@ export const getVideoInfo = async ({
       videoCategoryValue,
       duration,
       tags,
+      channel,
     };
   } catch (error) {
     throw new Error("Network error while fetching video info");

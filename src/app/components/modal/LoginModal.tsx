@@ -1,15 +1,20 @@
 "use client";
 
+import { getFormDataToBody } from "@/app/libs/utils/formData";
 import { useModalStore } from "@/app/stores/modalStore";
-import { useAuthStore } from "@/app/stores/useAuthStore";
 
 const LoginModal = () => {
   const closeModal = useModalStore((s) => s.closeModal);
-  const setLogined = useAuthStore((s) => s.setLogined);
   const handleSubmitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    saveTheCookiesFromFormData(e);
-    setLogined(true);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const data = await getFormDataToBody(formData);
+    await fetch("/apis/setCookies", {
+      method: "POST",
+      body: data,
+    });
+    // saveTheCookiesFromFormData(e);
     closeModal();
   };
 
@@ -22,7 +27,7 @@ const LoginModal = () => {
         <label>NID_SES</label>
         <input
           type="text"
-          name="nidSes"
+          name="NID_SES"
           className="border border-[#c5ccd2] pt-[27px] pb-[8px] px-[15px] rounded-tl-[8px] rounded-tr-[8px]"
         />
       </div>
@@ -30,7 +35,7 @@ const LoginModal = () => {
         <label>NID_AUT</label>
         <input
           type="text"
-          name="nidAut"
+          name="NID_AUT"
           className="border border-[#c5ccd2] pt-[27px] pb-[8px] px-[15px] rounded-bl-[8px] rounded-br-[8px]"
         />
       </div>
@@ -41,14 +46,14 @@ const LoginModal = () => {
 
 export default LoginModal;
 
-const saveTheCookiesFromFormData = (e: React.FormEvent<HTMLFormElement>) => {
-  const formData = new FormData(e.currentTarget);
-  const nidSes = formData.get("nidSes") as string;
-  const nidAut = formData.get("nidAut") as string;
-  console.log(nidSes, nidAut);
-  if (!nidSes || !nidAut) {
-    alert("둘 다 입력해주세요");
-  }
-  document.cookie = `NID_SES=${nidSes}; path=/`;
-  document.cookie = `NID_AUT=${nidAut}; path=/`;
-};
+// const saveTheCookiesFromFormData = (e: React.FormEvent<HTMLFormElement>) => {
+//   const formData = new FormData(e.currentTarget);
+//   const nidSes = formData.get("nidSes") as string;
+//   const nidAut = formData.get("nidAut") as string;
+//   console.log(nidSes, nidAut);
+//   if (!nidSes || !nidAut) {
+//     alert("둘 다 입력해주세요");
+//   }
+//   document.cookie = `NID_SES=${nidSes}; path=/`;
+//   document.cookie = `NID_AUT=${nidAut}; path=/`;
+// };

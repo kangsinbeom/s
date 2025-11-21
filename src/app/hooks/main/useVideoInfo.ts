@@ -17,6 +17,13 @@ const useVideoInfo = () => {
     videoCategoryValue: "",
     tags: [],
     duration: 0,
+    channel: {
+      channelId: "",
+      channelName: "",
+      channelImageUrl: "",
+      verifiedMark: false,
+      activatedChannelBadgeIds: [],
+    },
   });
   useEffect(() => {
     (async () => {

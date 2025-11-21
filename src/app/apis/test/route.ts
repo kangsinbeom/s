@@ -1,21 +1,22 @@
-import { NextRequest, NextResponse } from "next/server";
+import getAuthCookies from "@/app/libs/utils/getAuthCookies";
+import { NextRequest } from "next/server";
 
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
+export const GET = async (req: NextRequest) => {
+  const url = "https://comm-api.game.naver.com/nng_main/v1/user/getUserStatus";
+  const { NID_AUT, NID_SES } = getAuthCookies(req);
+  const cookies = req.headers.get("cookie") ?? "";
 
-    // 🔥 Python 백엔드로 요청 보내기
-    const res = await fetch("http://localhost:8000/api/vod/download", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+      Cookie: cookies,
+    },
+  });
 
-    const data = await res.json();
+  const data = await res.json();
+  console.log(data);
 
-    return NextResponse.json({ message: "success", data });
-  } catch (err: any) {
-    console.error("Error calling backend:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
-  }
-}
+  return new Response(JSON.stringify({ message: "Test API is working!" }));
+};

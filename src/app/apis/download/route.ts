@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { NID_AUT, NID_SES } = getAuthCookies(req);
-  const { start, end, quality, video_no } = await req.json();
+  const { timeRanges, quality, video_no } = await req.json();
 
   const { inKey, videoId } = await getVideoInfo({
     video_no,
@@ -31,31 +31,43 @@ export async function POST(req: NextRequest) {
   const segmentTemplate = representation.SegmentTemplate[0].$;
   const segmentTimeline =
     representation.SegmentTemplate[0].SegmentTimeline[0].S[0].$;
-  const totalSegments = parseInt(segmentTimeline.r) + 1; // 1873개
   const segmentScale = parseInt(segmentTimeline.d) / 1000;
-  const data = {
-    repId,
-    baseUrl,
-    media: segmentTemplate.media,
-    startNumber: segmentTemplate.startNumber,
-    totalSegments,
-    segmentScale,
-    a: parseInt(segmentTimeline.d),
-  };
-  const segment = segmentTemplate.media
-    .replace("$RepresentationID$", repId)
-    .replace("$Number%06d$", "000000");
+  const segmentUrls: string[] = [];
 
-  const segmentUrls = [];
+  const parsedTimeRange = timeRanges.map(
+    ({ start, end }: { start: number; end: number }) => ({
+      start: Math.floor(start / segmentScale),
+      end: Math.ceil(end / segmentScale) - 1,
+    })
+  );
 
-  for (let i = 0; i <= 14; i++) {
-    const segmentNumber = i.toString().padStart(6, "0");
-    const segmentFile = segmentTemplate.media
-      .replace("$RepresentationID$", repId)
-      .replace("$Number%06d$", segmentNumber);
+  parsedTimeRange.forEach(({ start, end }: { start: number; end: number }) => {
+    for (let i = start; i <= end; i++) {
+      const segmentNumber = i.toString().padStart(6, "0");
+      const segmentFile = segmentTemplate.media
+        .replace("$RepresentationID$", repId)
+        .replace("$Number%06d$", segmentNumber);
 
-    segmentUrls.push(`${baseUrl}${segmentFile}`);
+      segmentUrls.push(`${baseUrl}${segmentFile}`);
+    }
+  });
+
+  try {
+    // 🔥 Python 백엔드로 요청 보내기
+    const res = await fetch("http://localhost:8000/api/vod/download", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        segmentUrls,
+        output_filename: "video_output.mp4",
+      }),
+    });
+
+    const data = await res.json();
+
+    return NextResponse.json({ message: "success", data });
+  } catch (err: any) {
+    console.error("Error calling backend:", err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
-
-  return NextResponse.json({ segmentUrls, data });
 }

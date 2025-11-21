@@ -4,6 +4,7 @@ import SearchInput from "../inputs/SearchInput";
 import Modal from "../modal/Modal";
 import LoginModal from "../modal/LoginModal";
 import { cookies } from "next/headers";
+import { Suspense } from "react";
 
 export default async function Header() {
   const cookieStore = cookies();
@@ -24,7 +25,9 @@ export default async function Header() {
         />
       </a>
       <SearchInput />
-      <LoginStatus initialIsLogined={initialIsLogined} />
+      <Suspense fallback={<span>로딩중...</span>}>
+        <LoginStatus />
+      </Suspense>
       <Modal>
         <LoginModal />
       </Modal>

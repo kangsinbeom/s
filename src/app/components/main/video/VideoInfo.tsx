@@ -1,18 +1,17 @@
-"use client";
-
-import useVideoInfo from "@/app/hooks/main/useVideoInfo";
 import { formatShortDate } from "@/app/libs/utils/date";
-import VideoPreview from "./VideoPreview";
-import VideoRange from "./VideoRange";
+import { VideoInfoResponse } from "@/app/types/bff/response/video";
+import Image from "next/image";
 
-const VideoInfo = () => {
-  const {
-    videoInfo: { publishDate, src, tags, videoCategoryValue, videoTitle },
-  } = useVideoInfo();
+const VideoInfo = ({
+  publishDate,
+  tags,
+  videoCategoryValue,
+  videoTitle,
+  channel: { channelName, channelImageUrl },
+}: Omit<VideoInfoResponse, "src">) => {
   const date = formatShortDate(publishDate);
   return (
-    <div className="flex flex-col p-6 gap-2 ">
-      <VideoPreview src={src} />
+    <div>
       <div className="flex pl-4 gap-8">
         <div>
           <h2 className="text-2xl font-bold ">{videoTitle}</h2>
@@ -25,8 +24,17 @@ const VideoInfo = () => {
             ))}
             <p className="font-bold text-sm">{date}</p>
           </div>
+          {channelImageUrl && (
+            <Image
+              src={channelImageUrl}
+              alt="channalImageUrl"
+              width={60}
+              height={60}
+            />
+          )}
+
+          <span>{channelName}</span>
         </div>
-        <VideoRange />
       </div>
     </div>
   );

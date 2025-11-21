@@ -1,17 +1,30 @@
-interface ButtonProps {
+import { buttonSizeMap, buttonStyleMap } from "@/app/styles/button";
+import { ButtonHTMLAttributes } from "react";
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icons?: React.ReactNode;
   text?: string;
-  onClick?: () => void;
+  size?: keyof typeof buttonSizeMap;
+  styleType?: keyof typeof buttonStyleMap;
 }
 
-const Button = ({ icons, onClick, text }: ButtonProps) => {
+const Button = ({
+  icons,
+  text,
+  size = "md",
+  styleType = "basicRounded",
+  ...props
+}: ButtonProps) => {
+  const sizeClass = buttonSizeMap[size];
+  const styleClass = buttonStyleMap[styleType];
+
   return (
     <button
-      className="inline-flex gap-2 border px-3.5 py-1.5 rounded-full border-[#4d4d4d] font-semibold hover:cursor-pointer  hover:bg-[#202123] w-auto"
-      onClick={onClick}
+      className={`inline-flex items-center justify-center hover:cursor-pointer ${sizeClass} ${styleClass}`}
+      {...props}
     >
       {icons}
-      <span className="hover:cursor-pointer font-bold text-[15px]">{text}</span>
+      <span className="font-bold text-[15px]">{text}</span>
     </button>
   );
 };

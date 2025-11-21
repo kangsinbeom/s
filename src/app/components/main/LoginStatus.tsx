@@ -1,23 +1,26 @@
-"use client";
+import Image from "next/image";
+import LoginButton from "../buttons/LoginButton";
+import { cookies } from "next/headers";
 
-import React from "react";
-import Button from "../buttons/Button";
-import { useModalStore } from "@/app/stores/modalStore";
-import { useInitalizeAuth } from "@/app/hooks/useInitalizeAuth";
-import { useAuthStore } from "@/app/stores/useAuthStore";
+const LoginStatus = async () => {
+  const cookieStore = await cookies();
+  const NID_AUT = cookieStore.get("NID_AUT")?.value;
+  const NID_SES = cookieStore.get("NID_SES")?.value;
 
-interface LoginStatusProps {
-  initialIsLogined: boolean;
-}
-
-const LoginStatus = ({ initialIsLogined }: LoginStatusProps) => {
-  useInitalizeAuth(initialIsLogined);
-  const isLogined = useAuthStore((s) => s.isLogined);
-  const openModal = useModalStore((s) => s.openModal);
+  const res = await fetch("http://localhost:3000/apis/chzzkUserInfo", {
+    headers: {
+      Cookie: `NID_AUT=${NID_AUT}; NID_SES=${NID_SES}`,
+    },
+  });
+  const data = await res.json();
+  console.log(data);
+  const isLogined = false;
   return isLogined ? (
-    <p>쿠키 등록 완료</p>
+    <button className="bg-amber-500 w-[40px] h-[40px]">
+      <Image src={""} alt="프로필 이미지" width={34} height={34} />
+    </button>
   ) : (
-    <Button text="로그인" onClick={openModal} />
+    <LoginButton />
   );
 };
 

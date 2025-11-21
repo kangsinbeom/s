@@ -30,9 +30,9 @@ export async function GET(req: NextRequest) {
     });
     const src = getVodUrl(parsedXml);
     if (!src) throw new Error("BaseURL not found in DASH manifest");
-
     return NextResponse.json({
       src,
+      parsedXml,
       ...resposeInfo,
     });
   } catch (error) {
