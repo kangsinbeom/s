@@ -14,8 +14,7 @@ const LoginModal = () => {
       method: "POST",
       body: data,
     });
-    // saveTheCookiesFromFormData(e);
-    closeModal();
+    location.reload();
   };
 
   return (

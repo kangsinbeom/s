@@ -1,5 +1,6 @@
 export interface VideoInfoResponse {
   src: string; // 스트림 URL
+  type: "MP4" | "HLS";
   publishDate: string;
   videoTitle: string;
   videoCategoryValue: string;

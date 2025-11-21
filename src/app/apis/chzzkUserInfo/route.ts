@@ -1,5 +1,4 @@
 // src/app/apis/chzzkUserInfo/route.ts
-import getAuthCookies from "@/app/libs/utils/getAuthCookies";
 import { ChzzkUserInfoResponse } from "@/app/types/external/response/user";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -11,7 +10,7 @@ function clearAuthCookies(res: NextResponse) {
 }
 
 export async function GET(req: NextRequest) {
-  const { NID_AUT, NID_SES } = getAuthCookies(req);
+  const cookies = req.headers.get("cookie") ?? "";
 
   try {
     const res = await fetch(
@@ -19,7 +18,7 @@ export async function GET(req: NextRequest) {
       {
         method: "GET",
         headers: {
-          Cookie: `NID_SES=${NID_SES}; NID_AUT=${NID_AUT}`,
+          Cookie: cookies,
           "User-Agent":
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
           Accept: "application/json, text/plain, */*",

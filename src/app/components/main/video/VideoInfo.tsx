@@ -8,8 +8,9 @@ const VideoInfo = ({
   videoCategoryValue,
   videoTitle,
   channel: { channelName, channelImageUrl },
-}: Omit<VideoInfoResponse, "src">) => {
+}: Omit<VideoInfoResponse, "src" | "type">) => {
   const date = formatShortDate(publishDate);
+
   return (
     <div>
       <div className="flex pl-4 gap-8">

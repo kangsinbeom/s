@@ -12,6 +12,7 @@ const useVideoInfo = () => {
 
   const [videoInfo, setVideoInfo] = useState<VideoInfoResponse>({
     src: "",
+    type: "MP4",
     publishDate: "",
     videoTitle: "",
     videoCategoryValue: "",
@@ -36,13 +37,12 @@ const useVideoInfo = () => {
 
         const data: VideoInfoResponse = await res.json();
         setVideoInfo(data);
-
         // ✅ sessionStorage에 저장
-        sessionStorage.setItem("storedSrc", JSON.stringify(data));
-        // ✅ query parameter에 추가 (예: ?preview=true)
+        sessionStorage.setItem("storedSrc", JSON.stringify(data.src));
+        sessionStorage.setItem("storedType", JSON.stringify(data.type));
+
         const searchParams = new URLSearchParams(window.location.search);
         searchParams.set("preview", "true"); // 필요하면 다른 값으로 변경 가능
-        const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
       } catch (error) {
         console.error("Error fetching video info:", error);
       }

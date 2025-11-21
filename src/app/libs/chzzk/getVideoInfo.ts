@@ -18,6 +18,7 @@ type VideoInfo = Pick<
   | "duration"
   | "tags"
   | "channel"
+  | "liveRewindPlaybackJson"
 >;
 
 // videoInfo 가져오기 API
@@ -45,6 +46,7 @@ export const getVideoInfo = async ({
         duration,
         tags,
         channel,
+        liveRewindPlaybackJson,
       },
     }: VodApiResponse = await response.json();
 
@@ -57,6 +59,7 @@ export const getVideoInfo = async ({
       duration,
       tags,
       channel,
+      liveRewindPlaybackJson,
     };
   } catch (error) {
     throw new Error("Network error while fetching video info");
