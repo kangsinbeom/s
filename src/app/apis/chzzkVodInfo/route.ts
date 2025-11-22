@@ -17,14 +17,15 @@ export async function GET(req: NextRequest) {
         NID_AUT,
         NID_SES,
       });
-
     if (!inKey) {
       src = liveRewindPlaybackJsonToPath(liveRewindPlaybackJson);
       type = "HLS";
     } else {
-      src = fetchWithInKey({ video_no, inKey, NID_AUT, NID_SES });
+      src = await fetchWithInKey({ videoId, inKey, NID_AUT, NID_SES });
+
+      console.log("src:", src);
     }
-    if (!src) throw new Error("BaseURL not found in DASH manifest");
+
     return NextResponse.json({
       src,
       type,
