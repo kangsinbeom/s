@@ -40,7 +40,6 @@ const useDownloadVod = () => {
       a.download = "vod.mp4"; // 파일명
       document.body.appendChild(a);
       a.click();
-      console.log("성공인겨??? 아닌겨??");
       // 메모리 정리
       URL.revokeObjectURL(downloadUrl);
       document.body.removeChild(a);

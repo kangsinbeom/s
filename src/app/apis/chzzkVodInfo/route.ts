@@ -22,8 +22,6 @@ export async function GET(req: NextRequest) {
       type = "HLS";
     } else {
       src = await fetchWithInKey({ videoId, inKey, NID_AUT, NID_SES });
-
-      console.log("src:", src);
     }
 
     return NextResponse.json({
