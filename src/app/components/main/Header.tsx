@@ -7,7 +7,7 @@ import { Suspense } from "react";
 
 export default async function Header() {
   return (
-    <header className="flex items-center w-full h-[60px] justify-between px-6 text-white">
+    <header className="flex items-center w-full h-[60px] justify-between px-5 text-white">
       <a href="/" className="flex h-full items-center flex-shrink-0">
         <Image
           src="/images/chzzkDownloaderLogo.png"

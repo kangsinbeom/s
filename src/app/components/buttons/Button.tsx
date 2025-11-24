@@ -1,4 +1,5 @@
 import { buttonSizeMap, buttonStyleMap } from "@/app/styles/button";
+import clsx from "clsx";
 import { ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -6,6 +7,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string;
   size?: keyof typeof buttonSizeMap;
   styleType?: keyof typeof buttonStyleMap;
+  textAlign?: "start" | "center" | "end";
 }
 
 const Button = ({
@@ -13,14 +15,21 @@ const Button = ({
   text,
   size = "md",
   styleType = "basicRounded",
+  textAlign = "center",
   ...props
 }: ButtonProps) => {
   const sizeClass = buttonSizeMap[size];
   const styleClass = buttonStyleMap[styleType];
+  const alignStyle = `justify-${textAlign}`;
 
   return (
     <button
-      className={`inline-flex items-center justify-center hover:cursor-pointer ${sizeClass} ${styleClass}`}
+      className={clsx(
+        "inline-flex items-center hover:cursor-pointer",
+        alignStyle,
+        sizeClass,
+        styleClass
+      )}
       {...props}
     >
       {icons}
