@@ -10,19 +10,19 @@ import StockListHeader from "./StockListHeader";
 import StockItem from "./StockItem";
 
 const StockList = () => {
-  // const { stockItems } = useStockItemsStore((state) => state);
-  // const { selected, handleClickItem } = useSelcetedItem();
+  const { stockItems } = useStockItemsStore((state) => state);
+  const { selected, handleClickItem } = useSelcetedItem();
   const category = (useGetSearchParams("category") ??
     "rate_of_change") as keyof StockData;
   const sort = useGetSearchParams("sort") ?? "desc";
-  // const sortedList = getSortedList(stockItems, sort, category);
+  const sortedList = getSortedList(stockItems, sort, category);
 
-  // useWebsocket();
+  useWebsocket();
   return (
     <div className="flex h-[400px] w-[400px] flex-col rounded-sm border border-gray-200">
-      {/* <StockListHeader /> */}
+      <StockListHeader />
       <ul className="scrollbar-custom flex flex-1 flex-col overflow-y-auto shadow-2xl">
-        {/* {sortedList.map((item) => {
+        {sortedList.map((item) => {
           return (
             <StockItem
               key={item.code}
@@ -31,7 +31,7 @@ const StockList = () => {
               {...item}
             />
           );
-        })} */}
+        })}
       </ul>
     </div>
   );

@@ -48,13 +48,15 @@ export default function UserProfile({
             </div>
           </div>
           <div className=" flex flex-col px-2 mt-3 border-t border-t-[#2F3033] pt-3">
-            <Button
-              icons={<VideoIcon />}
-              text="VOD 다운로더"
-              styleType="noneRounded"
-              size="full"
-              textAlign="start"
-            />
+            <Link href="/">
+              <Button
+                icons={<VideoIcon />}
+                text="VOD 다운로더"
+                styleType="noneRounded"
+                size="full"
+                textAlign="start"
+              />
+            </Link>
             <Link href="/stock">
               <Button
                 icons={<UpIcon />}

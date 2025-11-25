@@ -1,4 +1,3 @@
-import Image from "next/image";
 import LoginButton from "../buttons/LoginButton";
 import { cookies } from "next/headers";
 import { UserInfoContent } from "@/app/types/external/response/user";

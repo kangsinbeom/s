@@ -42,7 +42,6 @@ export const POST = async (req: NextRequest) => {
   const response: NextResponse<{ message: string }> = NextResponse.json({
     message: "저장 완료",
   });
-
   /**
    * 이거 나중에 합쳐야하는데..
    */

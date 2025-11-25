@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import WebSocket, { WebSocketServer } from "ws";
 import { getReqInfo, getWsData, isJsonString } from "./utils";
-import { tr_keys } from "@/utils/tr_keys";
+import { tr_keys } from "@/app/utils/tr_keys";
 
 let serverWs: WebSocketServer | null = null;
 let isWsHandlerBound = false;

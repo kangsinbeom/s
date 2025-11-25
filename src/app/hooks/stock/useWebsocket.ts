@@ -16,7 +16,7 @@ const useWebsocket = () => {
   // 최초 연결 및 실시간 데이터 수신 부분
   useEffect(() => {
     (async () => {
-      await fetch("/api/ws");
+      await fetch("/apis/stock/ws");
       const ws = new WebSocket("ws://localhost:8080");
       wsRef.current = ws;
       ws.onmessage = (event) => {

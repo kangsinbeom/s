@@ -18,11 +18,11 @@ export const getAuthCookies = (name: string, req: NextRequest) => {
 // token과 socket key의 cookie에 넣는 함수
 export const setAuthCookies = (
   response: NextResponse<{ message: string }>,
-  { name, value }: { name: string; value: string },
+  { name, value }: { name: string; value: string }
 ) =>
   response.cookies.set(name, value, {
     httpOnly: true,
-    secure: true,
+    secure: false,
     sameSite: "strict",
     path: "/",
     maxAge: 60 * 60 * 24, // 1일 유효
