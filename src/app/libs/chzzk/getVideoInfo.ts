@@ -1,3 +1,4 @@
+import { VideoInfo } from "@/app/types/bff/response/video";
 import { VodApiResponse, VodContent } from "@/app/types/external/response/vod";
 
 const BASE_URL = process.env.CHZZK_VOD_INFO;
@@ -7,19 +8,6 @@ interface getVideoInfoParams {
   NID_AUT: string;
   NID_SES: string;
 }
-
-type VideoInfo = Pick<
-  VodContent,
-  | "videoId"
-  | "inKey"
-  | "publishDate"
-  | "videoTitle"
-  | "videoCategoryValue"
-  | "duration"
-  | "tags"
-  | "channel"
-  | "liveRewindPlaybackJson"
->;
 
 // videoInfo 가져오기 API
 export const getVideoInfo = async ({
@@ -36,31 +24,22 @@ export const getVideoInfo = async ({
         Cookie: `NID_SES=${NID_SES}; NID_AUT=${NID_AUT}`,
       },
     });
-    const {
-      content: {
-        videoId,
-        inKey,
-        publishDate,
-        videoTitle,
-        videoCategoryValue,
-        duration,
-        tags,
-        channel,
-        liveRewindPlaybackJson,
-      },
-    }: VodApiResponse = await response.json();
+    const { content }: VodApiResponse = await response.json();
 
-    return {
-      videoId,
-      inKey,
-      publishDate,
-      videoTitle,
-      videoCategoryValue,
-      duration,
-      tags,
-      channel,
-      liveRewindPlaybackJson,
+    const videoInfo: VideoInfo = {
+      videoId: content.videoId,
+      inKey: content.inKey ?? "",
+      publishDate: content.publishDate,
+      videoTitle: content.videoTitle,
+      videoCategoryValue: content.videoCategoryValue,
+      duration: content.duration,
+      tags: content.tags ?? [],
+      channel: content.channel,
+      liveRewindPlaybackJson: content.liveRewindPlaybackJson,
+      thumbnailImageUrl: content.thumbnailImageUrl,
     };
+
+    return videoInfo;
   } catch (error) {
     throw new Error("Network error while fetching video info");
   }

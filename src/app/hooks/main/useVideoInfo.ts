@@ -1,55 +1,21 @@
 "use client";
 
 import getPathSegments from "@/app/libs/utils/getPathSegments";
-import { VideoInfoResponse } from "@/app/types/bff/response/video";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { VideoApiResponse } from "@/app/types/bff/response/video";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { usePathname } from "next/navigation";
+import { fetchVodInfo } from "../fetch/vod/fetchVodInfo";
 
-// main page에서 사용되는 dashUrl에 대한 대부분의 정보들이 모여있는 hook
 const useVideoInfo = () => {
   const pathname = usePathname();
   const video_no = getPathSegments(pathname)[0];
-
-  const [videoInfo, setVideoInfo] = useState<VideoInfoResponse>({
-    src: "",
-    type: "MP4",
-    publishDate: "",
-    videoTitle: "",
-    videoCategoryValue: "",
-    tags: [],
-    duration: 0,
-    channel: {
-      channelId: "",
-      channelName: "",
-      channelImageUrl: "",
-      verifiedMark: false,
-      activatedChannelBadgeIds: [],
-    },
+  const { data } = useSuspenseQuery({
+    queryKey: ["videoInfo", video_no],
+    queryFn: () => fetchVodInfo(video_no),
+    staleTime: Infinity,
   });
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch(`/apis/chzzkVodInfo?videoNo=${video_no}`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include", // 쿠키 포함
-        });
 
-        const data: VideoInfoResponse = await res.json();
-        setVideoInfo(data);
-        // ✅ sessionStorage에 저장
-        sessionStorage.setItem("storedSrc", JSON.stringify(data.src));
-        sessionStorage.setItem("storedType", JSON.stringify(data.type));
-
-        const searchParams = new URLSearchParams(window.location.search);
-        searchParams.set("preview", "true"); // 필요하면 다른 값으로 변경 가능
-      } catch (error) {
-        console.error("Error fetching video info:", error);
-      }
-    })();
-  }, []);
-
-  return { videoInfo, setVideoInfo };
+  return data as VideoApiResponse;
 };
 
 export default useVideoInfo;

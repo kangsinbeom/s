@@ -49,7 +49,7 @@ export interface VodChannel {
   channelName: string;
   channelImageUrl: string;
   verifiedMark: boolean;
-  activatedChannelBadgeIds: string[];
+  activatedChannelBadgeIds: ㅏㅏstring[];
 }
 
 export interface VodPrevNextVideo {

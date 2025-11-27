@@ -1,22 +1,12 @@
 "use client";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
+import { getQueryClient } from "../libs/utils/queryClient";
 
 const AppProvider = ({ children }: PropsWithChildren) => {
-  const [client] = useState(
-    new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false, // 실패하면 재시도 X
-
-          staleTime: 1000 * 60 * 5, // 캐시 유지 시간 5분
-        },
-      },
-    })
-  );
-
+  const client = getQueryClient();
   return (
     <QueryClientProvider client={client}>
       {children}

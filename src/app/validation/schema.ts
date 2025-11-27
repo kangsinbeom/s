@@ -6,5 +6,5 @@ export const validationChzzkUrl = (url: string) => {
     protocol: /^https?$/,
     hostname: /^chzzk\.naver\.com$/,
   });
-  return chzzkUrlSchema.parse(url);
+  return chzzkUrlSchema.safeParse(url);
 };

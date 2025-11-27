@@ -1,3 +1,5 @@
+import { VodContent } from "../../external/response/vod";
+
 export interface VideoInfoResponse {
   src: string; // 스트림 URL
   type: "MP4" | "HLS";
@@ -15,4 +17,24 @@ export interface ChannelInfo {
   channelImageUrl: string;
   verifiedMark: boolean;
   activatedChannelBadgeIds: string[];
+}
+
+export type VideoInfo = Pick<
+  VodContent,
+  | "videoId"
+  | "inKey"
+  | "publishDate"
+  | "videoTitle"
+  | "videoCategoryValue"
+  | "duration"
+  | "tags"
+  | "channel"
+  | "liveRewindPlaybackJson"
+  | "thumbnailImageUrl"
+>;
+
+export interface VideoApiResponse extends Omit<VideoInfo, "inKey" | "videoId"> {
+  src: string;
+  type: "MP4" | "HLS";
+  liveRewindPlaybackJson: string;
 }
