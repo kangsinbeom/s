@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import Header from "./components/main/Header";
 import AppProvider from "./providers/AppProvider";
+
+import "./globals.css";
+import "@vidstack/react/player/styles/default/theme.css";
+import "@vidstack/react/player/styles/default/layouts/video.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

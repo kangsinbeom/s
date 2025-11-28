@@ -5,17 +5,14 @@ import { formatShortDate } from "@/app/libs/utils/date";
 import Image from "next/image";
 
 const VideoInfo = () => {
-  const data = useVideoInfo();
-  if (!data) return;
   const {
     publishDate,
     videoCategoryValue,
     videoTitle,
     tags,
     channel: { channelImageUrl, channelName },
-  } = data;
+  } = useVideoInfo();
   const date = formatShortDate(publishDate);
-
   return (
     <div className="flex pl-4 gap-8">
       <div>

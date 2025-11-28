@@ -4,11 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 import useVideoInfo from "@/app/hooks/main/useVideoInfo";
 
+import { MediaPlayer, MediaProvider } from "@vidstack/react";
+import {
+  defaultLayoutIcons,
+  DefaultVideoLayout,
+} from "@vidstack/react/player/layouts/default";
+
 const VideoPreview = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoReady, setIsVideoReady] = useState<boolean>(false);
   const { src, type, thumbnailImageUrl } = useVideoInfo();
-
   useEffect(() => {
     if (!videoRef.current) return;
 
@@ -34,26 +39,21 @@ const VideoPreview = () => {
   }, [src, type]);
 
   return (
-    <div style={{ position: "relative", width: "100%", maxWidth: 800 }}>
-      {/* 썸네일 */}
-      {!isVideoReady && (
-        <img
-          src={thumbnailImageUrl}
-          alt="thumbnailImage"
-          style={{ width: "100%", display: "block" }}
+    <div className="w-[800px]">
+      <MediaPlayer
+        title="Sprite Fight"
+        src={src}
+        style={{ position: "relative", width: "100%", maxWidth: 800 }}
+        currentTime={100}
+      >
+        <MediaProvider />
+        <DefaultVideoLayout
+          thumbnails={`/apis/proxyImage?url=${encodeURIComponent(
+            thumbnailImageUrl
+          )}`}
+          icons={defaultLayoutIcons}
         />
-      )}
-
-      {/* video 태그 */}
-      <video
-        ref={videoRef}
-        controls
-        style={{
-          width: "100%",
-          display: isVideoReady ? "block" : "none", // 준비되면 보여줌
-        }}
-        onCanPlay={() => setIsVideoReady(true)}
-      />
+      </MediaPlayer>
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import { StockData } from "@/types/stock";
 import { createStore } from "zustand";
+import { StockData } from "../types/stock/stock";
 
 export interface StockItemsState {
   stockItems: StockData[];
@@ -12,7 +12,7 @@ export const createStockItemsStore = (initState: StockData[]) => {
     updateStockItems: (item) =>
       set((state) => ({
         stockItems: state.stockItems.map((data) =>
-          data.code === item.code ? { ...data, ...item } : data,
+          data.code === item.code ? { ...data, ...item } : data
         ),
       })),
   }));

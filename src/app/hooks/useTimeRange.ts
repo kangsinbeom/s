@@ -2,11 +2,7 @@ import { usePathname } from "next/navigation";
 import getPathSegments from "../libs/utils/getPathSegments";
 import { FormEvent, useState } from "react";
 import { hhmmssToSeconds } from "../libs/utils/date";
-
-type TimeRange = {
-  start: number;
-  end: number;
-};
+import { TimeRange } from "../stores/timeRange";
 
 const useTimeRange = () => {
   const pathname = usePathname();

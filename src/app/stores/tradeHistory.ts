@@ -1,5 +1,5 @@
-import { TradeHistoryData } from "@/types/stock";
 import { createStore } from "zustand";
+import { TradeHistoryData } from "../types/stock/stock";
 
 export interface TradeHistoryState {
   tradeHistories: TradeHistoryData[];
