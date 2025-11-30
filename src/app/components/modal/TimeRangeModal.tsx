@@ -3,21 +3,59 @@
 import PlusIcons from "../icons/Plus";
 import Button from "../buttons/Button";
 import DownloadIcon from "../icons/Download";
-import useTimeRange from "@/app/hooks/useTimeRange";
 import { useTimeRangeModalStore } from "@/app/stores/timeRangeModalStore";
 import VideoIcon from "../icons/Video";
-import { secondsToHHMMSS } from "@/app/libs/utils/date";
+import { hhmmssToSeconds, secondsToHHMMSS } from "@/app/libs/utils/date";
+import { FormEvent } from "react";
+import getPathSegments from "@/app/libs/utils/getPathSegments";
+import { usePathname } from "next/navigation";
+import { useTimeRangeStore } from "@/app/stores/provider/timeRange-store-provider";
 
 const TimeRangeModal = () => {
-  const {
-    handleAddTimeRange,
-    handleDeleteTimeRange,
-    onClickDownload,
-    timeRanges,
-  } = useTimeRange();
+  const pathname = usePathname();
+  // const onClickDownload = async () => {
+  //   const video_no = getPathSegments(pathname)[0];
+  //   const quality = "1080"; // 고정값으로 설정
+  //   const res = await fetch("/apis/test", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ timeRange, quality, video_no }),
+  //   });
+  //   const message = await res.json();
+  // };
+
+  const onClickDownload = async () => {
+    const video_no = getPathSegments(pathname)[0];
+    const timeRanges = [{ start: 0, end: 120 }]; // 예시: 0~120초
+
+    try {
+      const res = await fetch("/apis/test", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ video_no, timeRanges }),
+      });
+      const data = await res.json();
+      console.log(data.data);
+    } catch (err) {
+      console.error("Download error:", err);
+    }
+  };
+
+  const { timeRanges, addTimeRange, deleteTimeRange, moveToCurrentTime } =
+    useTimeRangeStore((state) => state);
+
   const toggleModal = useTimeRangeModalStore((state) => state.toggleModal);
+
   const isOpen = useTimeRangeModalStore((state) => state.isOpen);
 
+  const handleAddTimeRange = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const start = formData.get("start") as string;
+    const end = formData.get("end") as string;
+    addTimeRange({ start: hhmmssToSeconds(start), end: hhmmssToSeconds(end) });
+  };
   return (
     <div className="relative">
       <Button text="구간설정" icons={<VideoIcon />} onClick={toggleModal} />
@@ -32,13 +70,16 @@ const TimeRangeModal = () => {
           </form>
           <ul className="bg-[#4d4d4d] w-full h-full rounded-2xl p-4 gap-2">
             {timeRanges.map((range, index) => (
-              <li key={index} className="flex justify-evenly" value={index}>
+              <li
+                key={index}
+                className="flex justify-evenly"
+                value={index}
+                onClick={() => moveToCurrentTime(index)}
+              >
                 <span>{secondsToHHMMSS(range.start)}</span>
                 <span> ~ </span>
                 <span>{secondsToHHMMSS(range.end)}</span>
-                <button onClick={() => handleDeleteTimeRange(index)}>
-                  제거
-                </button>
+                <button onClick={() => deleteTimeRange(index)}>제거</button>
               </li>
             ))}
           </ul>

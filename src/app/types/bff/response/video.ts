@@ -2,7 +2,6 @@ import { VodContent } from "../../external/response/vod";
 
 export interface VideoInfoResponse {
   src: string; // 스트림 URL
-  type: "MP4" | "HLS";
   publishDate: string;
   videoTitle: string;
   videoCategoryValue: string;
@@ -35,6 +34,5 @@ export type VideoInfo = Pick<
 
 export interface VideoApiResponse extends Omit<VideoInfo, "inKey" | "videoId"> {
   src: string;
-  type: "MP4" | "HLS";
   liveRewindPlaybackJson: string;
 }

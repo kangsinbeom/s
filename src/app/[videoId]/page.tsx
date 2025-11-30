@@ -7,15 +7,13 @@ import Loading from "./loading";
 const VideoPage = () => {
   return (
     <div className="flex flex-col p-6 gap-2 w-fit">
-      <Suspense fallback={<Loading />}>
-        <VideoPreview />
-        <div className="relative">
-          <VideoInfo />
-          <div className="absolute top-1/2 right-0 translate-y-[-50%]">
-            <TimeRangeModal />
-          </div>
+      <VideoPreview />
+      <div className="relative">
+        <VideoInfo />
+        <div className="absolute top-1/2 right-0 translate-y-[-50%]">
+          <TimeRangeModal />
         </div>
-      </Suspense>
+      </div>
     </div>
   );
 };

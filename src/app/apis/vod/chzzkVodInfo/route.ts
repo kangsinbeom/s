@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
   const video_no = getReqSearchParams(req, "videoNo");
   try {
     let src;
-    let type: "MP4" | "HLS" = "MP4";
+
     const { inKey, videoId, liveRewindPlaybackJson, ...resposeInfo } =
       await getVideoInfo({
         video_no,
@@ -21,20 +21,18 @@ export async function GET(req: NextRequest) {
       });
     if (!inKey) {
       src = liveRewindPlaybackJsonToPath(liveRewindPlaybackJson);
-      type = "HLS";
     } else {
       src = await fetchWithInKey({ videoId, inKey, NID_AUT, NID_SES });
     }
     const response: VideoApiResponse = {
       src,
-      type,
       liveRewindPlaybackJson,
       ...resposeInfo,
     };
     return NextResponse.json<VideoApiResponse>(response);
   } catch (error) {
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: `${error} Error in Server` },
       { status: 500 }
     );
   }

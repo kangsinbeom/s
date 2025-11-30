@@ -4,7 +4,7 @@ const base_url = process.env.NEXT_PUBLIC_DEV_URL;
 
 export const fetchVodInfo = async (video_no: string) => {
   try {
-    const res = await fetch(`/apis/chzzkVodInfo?videoNo=${video_no}`, {
+    const res = await fetch(`/apis/vod/chzzkVodInfo?videoNo=${video_no}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -14,7 +14,6 @@ export const fetchVodInfo = async (video_no: string) => {
 
     if (typeof window !== "undefined") {
       sessionStorage.setItem("storedSrc", JSON.stringify(data.src));
-      sessionStorage.setItem("storedType", JSON.stringify(data.type));
     }
 
     return data;
@@ -30,7 +29,7 @@ export const fetchVodInfoWithCookies = async (
 ) => {
   try {
     const res = await fetch(
-      `${base_url}/apis/chzzkVodInfo?videoNo=${video_no}`,
+      `${base_url}/apis/vod/chzzkVodInfo?videoNo=${video_no}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json", Cookie: cookies },

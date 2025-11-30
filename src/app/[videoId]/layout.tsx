@@ -3,8 +3,7 @@ import { PropsWithChildren } from "react";
 import { getQueryClient } from "../libs/utils/queryClient";
 import { fetchVodInfoWithCookies } from "../hooks/fetch/vod/fetchVodInfo";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import VideoThumbnail from "../components/video/VideoThumbnail";
-import { VideoApiResponse } from "../types/bff/response/video";
+import { TimeRangeStoreProvider } from "../stores/provider/timeRange-store-provider";
 interface VodLayoutProps extends PropsWithChildren {
   params: { videoId: string };
 }
@@ -22,7 +21,7 @@ export default async function VodLayout({ children, params }: VodLayoutProps) {
   return (
     <div>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        {children}
+        <TimeRangeStoreProvider>{children}</TimeRangeStoreProvider>
       </HydrationBoundary>
     </div>
   );

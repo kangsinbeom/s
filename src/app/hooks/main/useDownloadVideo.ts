@@ -16,15 +16,15 @@ const useDownloadVod = () => {
   //   }
   // };
 
-  const handleDownloadVod = async ({
-    src,
-    type,
-  }: Pick<VideoInfoResponse, "src" | "type">) => {
+  const handleDownloadVod = async ({ src }: Pick<VideoInfoResponse, "src">) => {
     try {
-      const res = await fetch(`/apis/download?url=${encodeURIComponent(src)}`, {
-        method: "GET",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `/apis/vod/download?url=${encodeURIComponent(src)}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
 
       if (!res.ok) {
         throw new Error("다운로드 요청 실패");

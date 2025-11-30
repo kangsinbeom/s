@@ -1,6 +1,6 @@
 "use client";
 
-import useVideoInfo from "@/app/hooks/main/useVideoInfo";
+import useVideoInfo from "@/app/hooks/video/useVideoInfo";
 import { formatShortDate } from "@/app/libs/utils/date";
 import Image from "next/image";
 
@@ -30,6 +30,8 @@ const VideoInfo = () => {
             alt="channalImageUrl"
             width={60}
             height={60}
+            style={{ height: "auto", width: "auto" }}
+            // 이거 왜 해야하지? 경고가 뜨긴 하는데 가로세로 둘 중 하나만 선언했다면서 경고가 뜨네
           />
         )}
 
