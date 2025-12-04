@@ -9,7 +9,7 @@ import { hhmmssToSeconds, secondsToHHMMSS } from "@/app/libs/utils/date";
 import { FormEvent } from "react";
 import getPathSegments from "@/app/libs/utils/getPathSegments";
 import { usePathname } from "next/navigation";
-import { useTimeRangeStore } from "@/app/stores/provider/timeRange-store-provider";
+import { useTimeRangeStore } from "@/app/stores/store-providers/timeRange-store-provider";
 
 const TimeRangeModal = () => {
   const pathname = usePathname();

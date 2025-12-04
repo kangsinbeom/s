@@ -4,7 +4,7 @@ import getPathSegments from "@/app/libs/utils/getPathSegments";
 import { VideoInfoResponse } from "@/app/types/bff/response/video";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
-import { fetchVodInfo } from "../fetch/vod/fetchVodInfo";
+import { fetchVodInfo } from "../fetch/video/fetchVodInfo";
 
 const useVideoInfo = () => {
   const pathname = usePathname();

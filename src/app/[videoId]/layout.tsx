@@ -1,9 +1,9 @@
 import { cookies } from "next/headers";
 import { PropsWithChildren } from "react";
 import { getQueryClient } from "../libs/utils/queryClient";
-import { fetchVodInfoWithCookies } from "../hooks/fetch/vod/fetchVodInfo";
+import { fetchVodInfoWithCookies } from "../hooks/fetch/video/fetchVodInfo";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { TimeRangeStoreProvider } from "../stores/provider/timeRange-store-provider";
+import { TimeRangeStoreProvider } from "../stores/store-providers/timeRange-store-provider";
 interface VodLayoutProps extends PropsWithChildren {
   params: { videoId: string };
 }

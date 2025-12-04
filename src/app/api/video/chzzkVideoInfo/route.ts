@@ -1,7 +1,7 @@
 import getVideoInfo from "@/app/libs/chzzk/getVideoInfo";
 import getAuthCookies from "@/app/libs/utils/getAuthCookies";
 import getReqSearchParams from "@/app/libs/utils/getReqSearchParams";
-import liveRewindPlaybackJsonToPath from "@/app/libs/vod/liveRewindPlaybackJson";
+import liveRewindPlaybackJsonToPath from "@/app/libs/video/liveRewindPlaybackJson";
 import { NextRequest, NextResponse } from "next/server";
 import { fetchWithInKey } from "./fetchWithInKey";
 import { VideoInfoResponse } from "@/app/types/bff/response/video";

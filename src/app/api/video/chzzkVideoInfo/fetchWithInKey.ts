@@ -1,5 +1,5 @@
 import { getParsedXmlVodInfoUrl } from "@/app/libs/chzzk/getParsedXmlVodInfoUrl";
-import getVodUrl from "@/app/libs/vod/getVodUrl";
+import getVodUrl from "@/app/libs/video/getVodUrl";
 import { parseStringPromise } from "xml2js";
 
 interface fetchWithInKeyParams {
