@@ -4,7 +4,7 @@ import getReqSearchParams from "@/app/libs/utils/getReqSearchParams";
 import liveRewindPlaybackJsonToPath from "@/app/libs/vod/liveRewindPlaybackJson";
 import { NextRequest, NextResponse } from "next/server";
 import { fetchWithInKey } from "./fetchWithInKey";
-import { VideoApiResponse } from "@/app/types/bff/response/video";
+import { VideoInfoResponse } from "@/app/types/bff/response/video";
 
 export async function GET(req: NextRequest) {
   const { NID_AUT, NID_SES } = getAuthCookies(req);
@@ -24,12 +24,12 @@ export async function GET(req: NextRequest) {
     } else {
       src = await fetchWithInKey({ videoId, inKey, NID_AUT, NID_SES });
     }
-    const response: VideoApiResponse = {
+    const response: VideoInfoResponse = {
       src,
       liveRewindPlaybackJson,
       ...resposeInfo,
     };
-    return NextResponse.json<VideoApiResponse>(response);
+    return NextResponse.json<VideoInfoResponse>(response);
   } catch (error) {
     return NextResponse.json(
       { error: `${error} Error in Server` },

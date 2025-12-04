@@ -1,4 +1,4 @@
-import { VideoApiResponse } from "@/app/types/bff/response/video";
+import { VideoInfoResponse } from "@/app/types/bff/response/video";
 
 const base_url = process.env.NEXT_PUBLIC_DEV_URL;
 
@@ -10,7 +10,7 @@ export const fetchVodInfo = async (video_no: string) => {
       credentials: "include",
     });
 
-    const data: VideoApiResponse = await res.json();
+    const data: VideoInfoResponse = await res.json();
 
     if (typeof window !== "undefined") {
       sessionStorage.setItem("storedSrc", JSON.stringify(data.src));
@@ -36,7 +36,7 @@ export const fetchVodInfoWithCookies = async (
         credentials: "include", // 쿠키 포함
       }
     );
-    const data: VideoApiResponse = await res.json();
+    const data: VideoInfoResponse = await res.json();
 
     return data;
   } catch (error) {

@@ -1,11 +1,11 @@
 import { formatShortDate } from "@/app/libs/utils/date";
 import Button from "../buttons/Button";
 import VideoIcon from "../icons/Video";
-import { VideoApiResponse } from "@/app/types/bff/response/video";
+import { VideoInfoResponse } from "@/app/types/bff/response/video";
 import Image from "next/image";
 
 type VideoThumbnailProps = Pick<
-  VideoApiResponse,
+  VideoInfoResponse,
   | "channel"
   | "publishDate"
   | "tags"

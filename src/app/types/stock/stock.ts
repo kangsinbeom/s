@@ -8,33 +8,6 @@ export interface StockData {
   totalTradeVolume: number;
 }
 
-// 기본 주식에 대한 정보 Response
-export interface StockResponse {
-  rt_cd: string; // 성공 실패 여부
-  msg_cd: string; // 응답코드
-  msg1: string; // 응답메세지
-  output1: {
-    prdy_vrss: string; // 전일 대비 🔥
-    prdy_vrss_sign: string; // 전일 대비 부호
-    prdy_ctrt: string; // 전일 대비율 🔥
-    stck_prdy_clpr: string; // 전일대비 종가
-    acml_vol: string; // 누적 거래량
-    acml_tr_pbmn: string; // 누적 거래대금 🔥
-    hts_kor_isnm: string; // 한글 종목명 🔥
-    stck_prpr: string; // 주식 현재가 🔥
-  }; // 단일 응답 상세
-  output2: {
-    stck_bsop_date: string; // 주식 영업일자
-    stck_cntg_hour: string; // 주식 체결시간
-    stck_prpr: string; // 주식 현재가
-    stck_oprc: string; // 주식 시가
-    stck_hgpr: string; // 주식 최고가
-    stck_lwpr: string; // 주식 최저가
-    cntg_vol: string; // 체결 거래량
-    acml_tr_pbmn: string; // 누적 거래대금
-  }[]; // 배열 형태의 응답 상세
-}
-
 // 내가 가공해서 사용하는 체결량에 대한 정보
 export interface TradeHistoryData {
   code?: string;

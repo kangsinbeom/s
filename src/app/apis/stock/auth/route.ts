@@ -4,7 +4,10 @@ import {
   hasApprovalAndAccessToken,
   setAuthCookies,
 } from "@/app/libs/stock/auth";
-import { SocketResponse, TokenResponse } from "@/app/types/stock/auth";
+import {
+  SocketResponse,
+  TokenResponse,
+} from "@/app/types/external/response/auth";
 
 export const POST = async (req: NextRequest) => {
   /**
@@ -40,7 +43,7 @@ export const POST = async (req: NextRequest) => {
 
   //   set Token and socket key
   const response: NextResponse<{ message: string }> = NextResponse.json({
-    message: "저장 완료",
+    message: "access token 및 approval key 발급 및 세팅 완료",
   });
   /**
    * 이거 나중에 합쳐야하는데..

@@ -1,4 +1,4 @@
-export interface VodApiResponse {
+export interface ExternalVideoInfoResponse {
   code: number;
   message: string | null;
   content: VodContent;
@@ -49,7 +49,7 @@ export interface VodChannel {
   channelName: string;
   channelImageUrl: string;
   verifiedMark: boolean;
-  activatedChannelBadgeIds: ㅏㅏstring[];
+  activatedChannelBadgeIds: string[];
 }
 
 export interface VodPrevNextVideo {

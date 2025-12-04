@@ -1,5 +1,5 @@
-import { VideoInfo } from "@/app/types/bff/response/video";
-import { VodApiResponse, VodContent } from "@/app/types/external/response/vod";
+import { VideoInfo } from "@/app/types/bff/data/video";
+import { ExternalVideoInfoResponse } from "@/app/types/external/response/video";
 
 const BASE_URL = process.env.CHZZK_VOD_INFO;
 
@@ -24,7 +24,7 @@ export const getVideoInfo = async ({
         Cookie: `NID_SES=${NID_SES}; NID_AUT=${NID_AUT}`,
       },
     });
-    const { content }: VodApiResponse = await response.json();
+    const { content }: ExternalVideoInfoResponse = await response.json();
 
     const videoInfo: VideoInfo = {
       videoId: content.videoId,

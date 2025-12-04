@@ -2,10 +2,10 @@ import { getFidInputHour } from "@/app/libs/stock/time";
 import { instance } from "../instance";
 import {
   StockData,
-  StockResponse,
   TradeHistoryData,
   TradeHistoryResponse,
 } from "@/app/types/stock/stock";
+import { StockResponse } from "@/app/types/external/response/stock";
 
 interface StockParams {
   FID_COND_MRKT_DIV_CODE: string;

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { instance } from "../instance";
-import { TradeHistoryResponse } from "@/types/stock";
+import { TradeHistoryResponse } from "@/app/types/stock/stock";
 
 export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
@@ -23,13 +23,13 @@ export const GET = async (req: NextRequest) => {
         tr_id: "FHKST01010300",
         custtype: "P", // 개인: 'P', 법인: 'B'
       },
-    },
+    }
   ).then((res) =>
     res.output.map((data) => ({
       currentPrice: +data.stck_prpr,
       tradeTime: data.stck_cntg_hour,
       currnetTradeVolume: +data.cntg_vol,
-    })),
+    }))
   );
   return NextResponse.json(res);
 };

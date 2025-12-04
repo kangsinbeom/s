@@ -1,7 +1,7 @@
 "use client";
 
 import getPathSegments from "@/app/libs/utils/getPathSegments";
-import { VideoApiResponse } from "@/app/types/bff/response/video";
+import { VideoInfoResponse } from "@/app/types/bff/response/video";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { fetchVodInfo } from "../fetch/vod/fetchVodInfo";
@@ -15,7 +15,7 @@ const useVideoInfo = () => {
     enabled: !!video_no,
   });
 
-  return data as VideoApiResponse;
+  return data as VideoInfoResponse;
 };
 
 export default useVideoInfo;

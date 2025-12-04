@@ -1,7 +1,7 @@
 import { deleteToken, getAuthCookies } from "@/app/libs/stock/auth";
 import { instance } from "../../instance";
 import { NextRequest, NextResponse } from "next/server";
-import { TokenRevokeResponse } from "@/app/types/stock/auth";
+import { TokenRevokeResponse } from "@/app/types/external/response/auth";
 
 export const POST = async (req: NextRequest) => {
   const access_token = getAuthCookies("access_token", req);

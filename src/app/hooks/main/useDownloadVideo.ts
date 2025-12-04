@@ -1,5 +1,3 @@
-import { VideoInfoResponse } from "@/app/types/bff/response/video";
-
 const useDownloadVod = () => {
   // const handleDownloadVod = ({
   //   type,
@@ -16,7 +14,7 @@ const useDownloadVod = () => {
   //   }
   // };
 
-  const handleDownloadVod = async ({ src }: Pick<VideoInfoResponse, "src">) => {
+  const handleDownloadVod = async ({ src }: { src: string }) => {
     try {
       const res = await fetch(
         `/apis/vod/download?url=${encodeURIComponent(src)}`,
@@ -48,7 +46,7 @@ const useDownloadVod = () => {
     }
   };
 
-  const downloadHLS = async ({ src }: Pick<VideoInfoResponse, "src">) => {
+  const downloadHLS = async ({ src }: { src: string }) => {
     try {
       const res = await fetch(`/apis/download?url=${encodeURIComponent(src)}`, {
         headers: { "Content-Type": "application/json" },
