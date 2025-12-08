@@ -1,4 +1,6 @@
 // src/app/apis/chzzkUserInfo/route.ts
+
+import getAuthCookies from "@/app/libs/utils/getAuthCookies";
 import { ChzzkUserInfoResponse } from "@/app/types/external/response/user";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -10,7 +12,7 @@ function clearAuthCookies(res: NextResponse) {
 }
 
 export async function GET(req: NextRequest) {
-  const cookies = req.headers.get("cookie") ?? "";
+  const { NID_AUT, NID_SES } = getAuthCookies(req);
 
   try {
     const res = await fetch(
@@ -18,7 +20,7 @@ export async function GET(req: NextRequest) {
       {
         method: "GET",
         headers: {
-          Cookie: cookies,
+          Cookie: `NID_SES=${NID_SES}; NID_AUT=${NID_AUT}`,
           "User-Agent":
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
           Accept: "application/json, text/plain, */*",
@@ -28,6 +30,8 @@ export async function GET(req: NextRequest) {
       }
     );
     const data: ChzzkUserInfoResponse = await res.json();
+
+    if (!data.content.loggedIn) throw new Error("유저 정보 없음");
     return NextResponse.json({
       message: "유저정보 받아오기 성공",
       data: data.content,

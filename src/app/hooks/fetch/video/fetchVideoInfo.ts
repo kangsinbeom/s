@@ -2,7 +2,7 @@ import { VideoInfoResponse } from "@/app/types/bff/response/video";
 
 const base_url = process.env.NEXT_PUBLIC_DEV_URL;
 
-export const fetchVodInfo = async (video_no: string) => {
+export const fetchVideoInfo = async (video_no: string) => {
   try {
     const res = await fetch(`/apis/vod/chzzkVodInfo?videoNo=${video_no}`, {
       method: "GET",
@@ -23,7 +23,7 @@ export const fetchVodInfo = async (video_no: string) => {
 };
 
 // 서버에서 다루는 prefetch func
-export const fetchVodInfoWithCookies = async (
+export const fetchVideoInfoWithCookies = async (
   video_no: string,
   cookies: string
 ) => {

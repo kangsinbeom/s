@@ -1,21 +1,21 @@
 import { cookies } from "next/headers";
 import { PropsWithChildren } from "react";
 import { getQueryClient } from "../libs/utils/queryClient";
-import { fetchVodInfoWithCookies } from "../hooks/fetch/video/fetchVodInfo";
+import { fetchVideoInfoWithCookies } from "../hooks/fetch/video/fetchVideoInfo";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { TimeRangeStoreProvider } from "../stores/store-providers/timeRange-store-provider";
-interface VodLayoutProps extends PropsWithChildren {
+interface LayoutProps extends PropsWithChildren {
   params: { videoId: string };
 }
 
-export default async function VodLayout({ children, params }: VodLayoutProps) {
+export default async function Layout({ children, params }: LayoutProps) {
   const cookieStore = await cookies();
-  const { videoId } = await params;
+  const { videoId } = params;
   const cookieString = cookieStore.toString();
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["videoInfo", videoId],
-    queryFn: () => fetchVodInfoWithCookies(videoId, cookieString),
+    queryFn: () => fetchVideoInfoWithCookies(videoId, cookieString),
   });
 
   return (
