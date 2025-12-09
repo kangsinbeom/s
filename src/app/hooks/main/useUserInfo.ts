@@ -1,7 +1,7 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { fetchUserInfo } from "../fetch/user/fetchUserInfo";
+import { UserInfoContent } from "@/app/types/external/response/user";
 
 const useUserInfo = () => {
   const { data } = useSuspenseQuery({
@@ -12,4 +12,10 @@ const useUserInfo = () => {
 };
 
 export default useUserInfo;
-//
+
+const fetchUserInfo = async (): Promise<UserInfoContent> => {
+  const res = await fetch("/apis/video/chzzkUserInfo");
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message);
+  return data;
+};

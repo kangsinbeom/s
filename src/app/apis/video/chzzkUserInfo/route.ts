@@ -30,8 +30,8 @@ export async function GET(req: NextRequest) {
       }
     );
     const data: ChzzkUserInfoResponse = await res.json();
+    if (!data.content.loggedIn) throw new Error("유저 정보 받아오기 실패");
 
-    if (!data.content.loggedIn) throw new Error("유저 정보 없음");
     return NextResponse.json({
       message: "유저정보 받아오기 성공",
       data: data.content,
@@ -39,7 +39,14 @@ export async function GET(req: NextRequest) {
   } catch (err) {
     console.error("유저정보 받아오기 실패", err);
     return clearAuthCookies(
-      NextResponse.json({ error: "Internal Server Error" }, { status: 500 })
+      // NextResponse.json({ error: "유저 정보 받아오기 실패" }, { status: 400 })
+      NextResponse.json(
+        {
+          // message: "유저정보 받아오기 실패",
+          error: "유저정보 받아오기 실패",
+        },
+        { status: 400 }
+      )
     );
   }
 }

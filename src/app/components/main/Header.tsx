@@ -3,9 +3,10 @@ import LoginStatus from "./LoginStatus";
 import SearchInput from "../inputs/SearchInput";
 import Modal from "../modal/Modal";
 import LoginModal from "../modal/LoginModal";
-import { Suspense } from "react";
+import ErrorHandlingWrapper from "@/app/providers/ErrorHandlingWrapper";
+import TestFallback from "./TestFallback";
 
-export default async function Header() {
+export default function Header() {
   return (
     <header className="flex items-center w-full h-[60px] justify-between px-5 text-white">
       <a href="/" className="flex h-full items-center flex-shrink-0">
@@ -20,9 +21,13 @@ export default async function Header() {
         />
       </a>
       <SearchInput />
-      <Suspense fallback={<span>로딩중...</span>}>
+      <ErrorHandlingWrapper
+        fallbackComponent={TestFallback}
+        suspenseFallback={<span>로딩중...</span>}
+      >
         <LoginStatus />
-      </Suspense>
+      </ErrorHandlingWrapper>
+
       <Modal>
         <LoginModal />
       </Modal>
