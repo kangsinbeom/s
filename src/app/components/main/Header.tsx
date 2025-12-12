@@ -3,8 +3,6 @@ import LoginStatus from "./LoginStatus";
 import SearchInput from "../inputs/SearchInput";
 import Modal from "../modal/Modal";
 import LoginModal from "../modal/LoginModal";
-import ErrorHandlingWrapper from "@/app/providers/ErrorHandlingWrapper";
-import TestFallback from "./TestFallback";
 
 export default function Header() {
   return (
@@ -21,13 +19,7 @@ export default function Header() {
         />
       </a>
       <SearchInput />
-      <ErrorHandlingWrapper
-        fallbackComponent={TestFallback}
-        suspenseFallback={<span>로딩중...</span>}
-      >
-        <LoginStatus />
-      </ErrorHandlingWrapper>
-
+      <LoginStatus />
       <Modal>
         <LoginModal />
       </Modal>

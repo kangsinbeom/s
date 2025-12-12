@@ -1,4 +1,4 @@
-import { fetchStockData, getStockParams } from "@/app/api/stock/stock/utils";
+import { fetchStockData, getStockParams } from "@/app/apis/stock/stock/utils";
 import { RealTimeData } from "@/app/types/stock/realTime";
 import { StockData, TradeHistoryData } from "@/app/types/stock/stock";
 import { tr_keys } from "@/app/utils/tr_keys";

@@ -42,6 +42,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     const { state, props } = this;
     const { hasError, error } = state;
     const { FallbackComponent, children } = props;
+
     if (hasError && error) {
       return (
         <FallbackComponent

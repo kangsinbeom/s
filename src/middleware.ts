@@ -6,6 +6,8 @@ import { hasApprovalAndAccessToken } from "./app/libs/stock/auth";
 export function middleware(request: NextRequest) {
   const hasAuth = hasApprovalAndAccessToken(request);
   if (!hasAuth) {
+    const a = new URL("stock/auth", request.url);
+    console.log("-------------------------", a.href);
     return NextResponse.rewrite(new URL("stock/auth", request.url));
   }
   return NextResponse.next();

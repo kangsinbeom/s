@@ -14,7 +14,6 @@ export const POST = async (req: NextRequest) => {
    * 나중에 둘 중 하나가 없는 경우에 없는 요청을 새롭게 반복하는 구문이 필요함.
    */
   const hasAuth = hasApprovalAndAccessToken(req);
-
   if (hasAuth) {
     return NextResponse.json({ message: "토큰이랑 키 있음" });
   }

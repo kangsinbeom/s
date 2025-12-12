@@ -26,6 +26,8 @@ export const useTimeRangeStore = <T,>(
 ): T => {
   const timeRangeStoreContext = useContext(TimeRangeStoreContext);
   if (!timeRangeStoreContext)
-    throw new Error(`useCounterStore must be used within CounterStoreProvider`);
+    throw new Error(
+      `useCounterStore must be used within TimeRangeStoreProvider`
+    );
   return useStore(timeRangeStoreContext, selector);
 };

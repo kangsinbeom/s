@@ -1,7 +1,9 @@
 import { UserInfoContent } from "@/app/types/external/response/user";
 
 export const fetchUserInfo = async () => {
-  const res = await fetch("/apis/vod/chzzkUserInfo");
+  const res = await fetch("/apis/vod/chzzkUserInfo", {
+    credentials: "include",
+  });
   try {
     const data: UserInfoContent = await res.json();
 

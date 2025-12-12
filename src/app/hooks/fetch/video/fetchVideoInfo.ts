@@ -4,7 +4,7 @@ const base_url = process.env.NEXT_PUBLIC_DEV_URL;
 
 export const fetchVideoInfo = async (video_no: string) => {
   try {
-    const res = await fetch(`/apis/vod/chzzkVodInfo?videoNo=${video_no}`, {
+    const res = await fetch(`/apis/video/chzzkVodInfo?videoNo=${video_no}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
