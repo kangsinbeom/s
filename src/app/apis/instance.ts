@@ -1,10 +1,10 @@
-const BASE_URL = process.env.NEXT_PUBLIC_KIS_URL;
+const STOCK_BASE_URL = process.env.NEXT_PUBLIC_KIS_URL;
 
-export const instance = async <T = unknown>(
+export const stockInstance = async <T = unknown>(
   url: string,
-  options?: RequestInit,
+  options?: RequestInit
 ) => {
-  const res = await fetch(`${BASE_URL}${url}`, {
+  const res = await fetch(`${STOCK_BASE_URL}${url}`, {
     ...options,
     headers: {
       "Content-Type": "application/json; charset=utf-8",

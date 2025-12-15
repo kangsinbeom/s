@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { instance } from "../instance";
 import { TradeHistoryResponse } from "@/app/types/stock/stock";
+import { stockInstance } from "../../instance";
 
 export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
@@ -13,7 +13,7 @@ export const GET = async (req: NextRequest) => {
     FID_INPUT_ISCD: code,
   }).toString();
 
-  const res = await instance<TradeHistoryResponse>(
+  const res = await stockInstance<TradeHistoryResponse>(
     `/uapi/domestic-stock/v1/quotations/inquire-ccnl?${queryString}`,
     {
       headers: {

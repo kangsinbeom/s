@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { instance } from "../../instance";
 import { getAuthCookies } from "@/app/libs/stock/auth";
 import { StockQuoteResponse } from "@/app/types/stock/stock";
+import { stockInstance } from "@/app/apis/instance";
 
 export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
@@ -13,7 +13,7 @@ export const GET = async (req: NextRequest) => {
     FID_INPUT_ISCD: "005930",
   }).toString();
 
-  const res = await instance<StockQuoteResponse>(
+  const res = await stockInstance<StockQuoteResponse>(
     `/uapi/domestic-stock/v1/quotations/inquire-asking-price-exp-ccn?${queryString}`,
     {
       headers: {

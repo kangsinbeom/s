@@ -5,6 +5,7 @@ import TradeHistoryList from "../components/stock/TradeHistoryList";
 import { getStockData } from "../libs/stock/getStockData";
 import { StockItemsStoreProvider } from "../providers/stock-store-provider";
 import { TradeHistoryStoreProvider } from "../providers/tradeHistory-store-provider";
+import TestArea from "../components/TestArea";
 
 const base_url = process.env.NEXT_PUBLIC_DEV_URL;
 
@@ -30,12 +31,13 @@ const StockPage = async () => {
         <div className="h-screen w-screen">
           <div className="flex flex-col p-20 items-center">
             <Carousel items={demoData} />
-            <div className="flex flex-row justify-between p-20 w-full">
+            {/* <div className="flex flex-row justify-between p-20 w-full">
               <div className="h-fit w-[260px]">
                 <StockList />
               </div>
               <TradeHistoryList />
-            </div>
+            </div> */}
+            <TestArea />
           </div>
         </div>
       </TradeHistoryStoreProvider>

@@ -1,11 +1,11 @@
 import { getFidInputHour } from "@/app/libs/stock/time";
-import { instance } from "../instance";
 import {
   StockData,
   TradeHistoryData,
   TradeHistoryResponse,
 } from "@/app/types/stock/stock";
 import { StockResponse } from "@/app/types/external/response/stock";
+import { stockInstance } from "../../instance";
 
 interface StockParams {
   FID_COND_MRKT_DIV_CODE: string;
@@ -46,7 +46,7 @@ export const fetchStockData = async ({
   const queryString = new URLSearchParams({
     ...params,
   }).toString();
-  const res = await instance<StockResponse>(
+  const res = await stockInstance<StockResponse>(
     `/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice?${queryString}`,
     {
       headers: {
@@ -80,7 +80,7 @@ export const getTradeHistoryData = async (
     FID_INPUT_ISCD: code,
   }).toString();
 
-  const res = await instance<TradeHistoryResponse>(
+  const res = await stockInstance<TradeHistoryResponse>(
     `/uapi/domestic-stock/v1/quotations/inquire-ccnl?${queryString}`,
     {
       headers: {

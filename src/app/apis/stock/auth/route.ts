@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { instance } from "../instance";
+import { stockInstance } from "../../instance";
 import {
   hasApprovalAndAccessToken,
   setAuthCookies,
@@ -20,7 +20,7 @@ export const POST = async (req: NextRequest) => {
 
   const [access_token, approval_key] = await Promise.all([
     // 토큰 받아오기
-    instance<TokenResponse>("/oauth2/tokenP", {
+    stockInstance<TokenResponse>("/oauth2/tokenP", {
       method: "POST",
       body: JSON.stringify({
         grant_type: "client_credentials",
@@ -30,7 +30,7 @@ export const POST = async (req: NextRequest) => {
     }).then((res) => res.access_token),
 
     // 웹소켓 시 사용될 키 받아오기
-    instance<SocketResponse>("/oauth2/Approval", {
+    stockInstance<SocketResponse>("/oauth2/Approval", {
       method: "POST",
       body: JSON.stringify({
         grant_type: "client_credentials",
