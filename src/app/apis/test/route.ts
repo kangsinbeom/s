@@ -2,6 +2,9 @@ import { getAuthCookies } from "@/app/libs/stock/auth";
 import { getStockHeaders } from "@/app/libs/stock/getStockHeaders";
 import { NextRequest, NextResponse } from "next/server";
 import { stockInstance } from "../instance";
+import { ExternalPeriodStockResponse } from "@/app/types/external/response/stock";
+import { PeriodStockInfoResponse } from "@/app/types/bff/response/stock";
+import { getPriceRange } from "@/app/libs/stock/getPriceRange";
 
 export const GET = async (req: NextRequest) => {
   const access_token = getAuthCookies("access_token", req) as string;
@@ -15,14 +18,23 @@ export const GET = async (req: NextRequest) => {
     FID_ORG_ADJ_PRC: "1",
   }).toString();
   try {
-    const res = await stockInstance(
+    const res = await stockInstance<ExternalPeriodStockResponse>(
       `/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice?${queryString}`,
       {
         headers,
       }
     );
-
-    return NextResponse.json(res);
+    const { output2 } = res;
+    const stocks = output2.map((stock) => ({
+      date: new Date(stock.stck_bsop_date),
+      close: Number(stock.stck_clpr),
+      open: Number(stock.stck_oprc),
+      high: Number(stock.stck_hgpr),
+      low: Number(stock.stck_lwpr),
+    }));
+    const minAndMax = getPriceRange(stocks);
+    console.log(minAndMax, "-------------------------");
+    return NextResponse.json<PeriodStockInfoResponse>({ ...minAndMax, stocks });
   } catch (error) {
     console.error("Error fetching test data:", error);
     return NextResponse.json(
