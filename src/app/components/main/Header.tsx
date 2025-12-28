@@ -4,7 +4,7 @@ import SearchInput from "../inputs/SearchInput";
 import Modal from "../modal/Modal";
 import LoginModal from "../modal/LoginModal";
 
-export default function Header() {
+const Header = () => {
   return (
     <header className="flex items-center w-full h-[60px] justify-between px-5 text-white">
       <a href="/" className="flex h-full items-center flex-shrink-0">
@@ -25,4 +25,6 @@ export default function Header() {
       </Modal>
     </header>
   );
-}
+};
+
+export default Header;

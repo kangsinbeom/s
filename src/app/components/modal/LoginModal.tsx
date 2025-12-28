@@ -9,11 +9,8 @@ const LoginModal = () => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const data = await getFormDataToBody(formData);
-    await fetch("/apis/setCookies", {
-      method: "POST",
-      body: data,
-    });
+    document.cookie = `NID_SES=${formData.get("NID_SES")}; path=/`;
+    document.cookie = `NID_AUT=${formData.get("NID_AUT")}; path=/`;
     location.reload();
   };
 

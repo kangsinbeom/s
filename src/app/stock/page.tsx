@@ -5,7 +5,6 @@ import TradeHistoryList from "../components/stock/TradeHistoryList";
 import { getStockData } from "../libs/stock/getStockData";
 import { StockItemsStoreProvider } from "../providers/stock-store-provider";
 import { TradeHistoryStoreProvider } from "../providers/tradeHistory-store-provider";
-import TestArea from "../components/TestArea";
 import Graph from "../components/graph/Graph";
 
 const base_url = process.env.NEXT_PUBLIC_DEV_URL;

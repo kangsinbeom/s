@@ -15,6 +15,21 @@ export function formatKoreanDate(dateString: string): string {
   return dayjs(dateString).format("YYYY년 M월 D일");
 }
 
+export function formatYYYYMMDDToDate(dateString: string): Date {
+  const year = Number(dateString.slice(0, 4));
+  const month = Number(dateString.slice(4, 6)) - 1; // 월은 0부터 시작하므로 -1
+  const day = Number(dateString.slice(6, 8));
+  return new Date(year, month, day);
+}
+
+export function formatDateToYYYYMMDD(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}${month}${day}`;
+}
+
 /**
  * 날짜와 시간을 함께 변환 (예: "2025년 9월 18일 14시 27분")
  */

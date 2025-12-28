@@ -91,11 +91,11 @@ export interface ExternalPeriodStockResponse {
 
 //📦 기간별 국내 주식 시세 Output1
 interface PeriodStockOutput1 {
-  /** 전일 대비 */
+  /** 🔥 전일 대비 */
   prdy_vrss: string;
   /** 전일 대비 부호 */
   prdy_vrss_sign: string;
-  /** 전일 대비율 */
+  /** 🔥 전일 대비율 */
   prdy_ctrt: string;
   /** 주식 전일 종가 */
   stck_prdy_clpr: string;
@@ -103,19 +103,19 @@ interface PeriodStockOutput1 {
   acml_vol: string;
   /** 누적 거래 대금 */
   acml_tr_pbmn: string;
-  /** HTS 한글 종목명 */
+  /** 🔥 HTS 한글 종목명 */
   hts_kor_isnm: string;
-  /** 주식 현재가 */
+  /** 🔥 주식 현재가 */
   stck_prpr: string;
   /** 주식 단축 종목코드 */
   stck_shrn_iscd: string;
-  /** 전일 거래량 */
+  /** 🔥전일 거래량 */
   prdy_vol: string;
-  /** 주식 상한가 */
+  /**  주식 상한가 */
   stck_mxpr: string;
-  /** 주식 하한가 */
+  /**  주식 하한가 */
   stck_llam: string;
-  /** 주식 시가 */
+  /**  주식 시가 */
   stck_oprc: string;
   /** 주식 최고가 */
   stck_hgpr: string;

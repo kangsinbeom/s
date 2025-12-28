@@ -1,6 +1,6 @@
 // src/app/apis/chzzkUserInfo/route.ts
 
-import getAuthCookies from "@/app/libs/utils/getAuthCookies";
+import { getChzzkAuthHeaders } from "@/app/libs/headers/chzzk";
 import { ChzzkUserInfoResponse } from "@/app/types/external/response/user";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -13,15 +13,12 @@ function clearAuthCookies(res: NextResponse) {
 
 export async function GET(req: NextRequest) {
   try {
-    const { NID_AUT, NID_SES } = getAuthCookies(req);
-
+    const headers = getChzzkAuthHeaders(req);
     const res = await fetch(
       "https://comm-api.game.naver.com/nng_main/v1/user/getUserStatus",
       {
         method: "GET",
-        headers: {
-          Cookie: `NID_AUT=${NID_AUT}; NID_SES=${NID_SES}`,
-        },
+        headers,
       }
     );
     const data: ChzzkUserInfoResponse = await res.json();
@@ -33,22 +30,13 @@ export async function GET(req: NextRequest) {
       data: data.content,
     });
   } catch (err) {
-    // return clearAuthCookies(
-    //   // NextResponse.json({ error: "유저 정보 받아오기 실패" }, { status: 400 })
-    //   NextResponse.json(
-    //     {
-    //       // message: "유저정보 받아오기 실패",
-    //       error: "유저정보 받아오기 실패",
-    //     },
-    //     { status: 400 }
-    //   )
-    // );
-    return NextResponse.json(
-      {
-        // message: "유저정보 받아오기 실패",
-        message: "유저정보 받아오기 실패",
-      },
-      { status: 400 }
+    return clearAuthCookies(
+      NextResponse.json(
+        {
+          error: "유저정보 받아오기 실패",
+        },
+        { status: 400 }
+      )
     );
   }
 }

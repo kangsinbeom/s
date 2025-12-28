@@ -1,8 +1,13 @@
-export type PeriodStockInfoResponse = {
+export interface PeriodStockInfoResponse {
+  stockName: string;
+  volume: number;
+  changeRate: number;
+  changePrice: number;
+  currentPrice: number;
   min: number;
   max: number;
   stocks: PeriodStock[];
-};
+}
 
 export interface PeriodStock {
   date: Date;

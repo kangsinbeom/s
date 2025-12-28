@@ -45,7 +45,7 @@ const Carousel = ({ items }: CarouselProps) => {
 
   return (
     <div
-      className="relative flex items-center w-[999px]"
+      className="relative flex items-center w-[999px] z-0"
       onMouseEnter={() => setIsHoverd(true)}
       onMouseLeave={() => setIsHoverd(false)}
     >

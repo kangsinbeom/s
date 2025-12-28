@@ -19,7 +19,7 @@ export default function UserProfile({
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <div className="relative">
+    <div className="relative z-[9999]">
       <button
         className="flex items-center justify-center w-[40px] h-[40px] border-[3px] rounded-full border-[#00ffa3] overflow-hidden cursor-pointer hover:border-4"
         onClick={() => setIsOpen((value) => !value)}

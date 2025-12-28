@@ -30,12 +30,6 @@ const useUserInfo = () => {
     })();
   }, []);
 
-  // const { data } = useSuspenseQuery({
-  //   queryKey: ["userInfo"],
-  //   queryFn: () => fetchUserInfo(),
-  //   retry: false,
-  // });
-
   return userInfo;
 };
 
@@ -46,6 +40,7 @@ const fetchUserInfo = async (): Promise<UserInfoContent> => {
     credentials: "include",
   });
   const data = await res.json();
+
   if (!res.ok) throw new Error(data.message);
-  return data;
+  return data.data;
 };
