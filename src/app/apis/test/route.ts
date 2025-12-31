@@ -53,10 +53,12 @@ export const GET = async (req: NextRequest) => {
       low: Number(stock.stck_lwpr),
     }));
     const minAndMax = getPriceRange(stocks);
-
+    const reversedStocks = stocks.sort(
+      (a, b) => a.date.getTime() - b.date.getTime()
+    );
     const response: PeriodStockInfoResponse = {
       ...minAndMax,
-      stocks,
+      stocks: reversedStocks,
       stockName: hts_kor_isnm,
       volume: Number(prdy_vol),
       changeRate: Number(prdy_ctrt),

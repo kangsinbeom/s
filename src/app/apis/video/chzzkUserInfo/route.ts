@@ -22,7 +22,6 @@ export async function GET(req: NextRequest) {
       }
     );
     const data: ChzzkUserInfoResponse = await res.json();
-    console.log(data);
     if (!data.content.loggedIn) throw new Error("유저 정보 받아오기 실패");
 
     return NextResponse.json({

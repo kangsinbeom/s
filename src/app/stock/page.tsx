@@ -6,6 +6,7 @@ import { getStockData } from "../libs/stock/getStockData";
 import { StockItemsStoreProvider } from "../providers/stock-store-provider";
 import { TradeHistoryStoreProvider } from "../providers/tradeHistory-store-provider";
 import Graph from "../components/graph/Graph";
+import TestArea from "../components/TestArea";
 
 const base_url = process.env.NEXT_PUBLIC_DEV_URL;
 
@@ -38,7 +39,7 @@ const StockPage = async () => {
               </div>
               <TradeHistoryList />
             </div> */}
-            {/* <TestArea /> */}
+            <TestArea />
           </div>
         </div>
       </TradeHistoryStoreProvider>

@@ -16,5 +16,6 @@ const TestArea = () => {
 export default TestArea;
 
 const fetchData = async () => {
-  await fetch("/apis/test");
+  const res = await fetch("/apis/test/scrpit");
+  return res.json();
 };
